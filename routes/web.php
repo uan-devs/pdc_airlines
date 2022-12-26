@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+// ADMIN ROUTES
+
+Route::get('/admin/dashboard',function(){
+    return view("admin.pages.dashboard");
+})->name("dashboard");
+
+Route::get('/admin/voos',function(){
+    return view("admin.pages.voos.index");
+})->name("voos");
