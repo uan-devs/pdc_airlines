@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('voos_lugares', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->integer('estado');
-            $table->unsignedBigInteger('id_lugar');
-            $table->unsignedBigInteger('id_voo_tarifa');
             $table->timestamps();
-            $table->foreign('id_lugar')->references('id')->on('lugares');
-            $table->foreign('id_voo_tarifa')->references('id')->on('voos_tarifas');
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('voos_lugares');
+        Schema::dropIfExists('classes');
     }
 };

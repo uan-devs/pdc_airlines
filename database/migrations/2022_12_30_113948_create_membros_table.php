@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('morada');
             $table->string('idioma');
             $table->integer('pin');
-            $table->float('milhas');
+            $table->integer('milhas');
             $table->unsignedBigInteger('id_cliente');
+            $table->integer('estado')->default(1);
             $table->timestamps();
             $table->foreign('id_cliente')->references('id')->on('clientes');
-
         });
     }
 

@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('historicos', function (Blueprint $table) {
+        Schema::create('paises', function (Blueprint $table) {
             $table->id();
-            $table->date('data');
-            $table->unsignedBigInteger('id_voo');
-            $table->unsignedBigInteger('id_user');
+            $table->string('nome');
             $table->timestamps();
-            $table->foreign('id_voo')->references('id')->on('voos');
-            $table->foreign('id_user')->references('id')->on('users');
         });
     }
 
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('historicos');
+        Schema::dropIfExists('paises');
     }
 };

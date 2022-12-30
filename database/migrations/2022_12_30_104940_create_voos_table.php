@@ -13,12 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lugares', function (Blueprint $table) {
+        Schema::create('voos', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_lugar');
-            $table->integer('in_janela');
+            $table->unsignedBigInteger('id_aeroporto_origem');
+            $table->unsignedBigInteger('id_aeroporto_destino');
+            $table->date('data_partida');
+            $table->time('hora');
+            $table->integer('duracao_estimada');
             $table->unsignedBigInteger('id_aviao');
+            $table->integer('estado')->default(1);
             $table->timestamps();
+            $table->foreign('id_aeroporto_origem')->references('id')->on('aeroportos');
+            $table->foreign('id_aeroporto_destino')->references('id')->on('aeroportos');
             $table->foreign('id_aviao')->references('id')->on('avioes');
         });
     }
@@ -30,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lugares');
+        Schema::dropIfExists('voos');
     }
 };

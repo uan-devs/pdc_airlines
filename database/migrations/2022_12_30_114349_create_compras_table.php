@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cidades', function (Blueprint $table) {
+        Schema::create('compras', function (Blueprint $table) {
             $table->id();
-            $table->string('nome_cidade');
-            $table->unsignedBigInteger('id_pais');
+            $table->timestamp('data');
+            $table->double('valor_total');
+            $table->integer('pago');
+            $table->string('referencia_pagamento')->nullable();
+            $table->integer('estado')->default(0);
             $table->timestamps();
-            $table->foreign('id_pais')->references('id')->on('paises');
-
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cidades');
+        Schema::dropIfExists('compras');
     }
 };

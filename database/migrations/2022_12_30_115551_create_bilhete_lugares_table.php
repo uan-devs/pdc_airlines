@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('avioes', function (Blueprint $table) {
-            $table->id();
+        Schema::create('bilhete_lugares', function (Blueprint $table) {
+            $table->id();   
+            $table->unsignedBigInteger('id_bilhete');
+            $table->unsignedBigInteger('id_voo_lugar');
             $table->string('tipo');
-            $table->string('marca');
-            $table->string('modelo');
-            $table->integer('capacidade');
+            $table->integer('estado')->default(1);
             $table->timestamps();
+            $table->foreign('id_bilhete')->references('id')->on('bilhetes');
+            $table->foreign('id_voo_lugar')->references('id')->on('voo_lugares'); 
         });
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('avioes');
+        Schema::dropIfExists('bilhete_lugares');
     }
 };

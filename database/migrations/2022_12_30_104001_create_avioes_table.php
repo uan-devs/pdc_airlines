@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('paises', function (Blueprint $table) {
+        Schema::create('avioes', function (Blueprint $table) {
             $table->id();
-            $table->string('nome_pais');
+            $table->string('tipo');
+            $table->string('modelo');
+            $table->string('descricao');
+            $table->integer('capacidade');
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paises');
+        Schema::dropIfExists('avioes');
     }
 };

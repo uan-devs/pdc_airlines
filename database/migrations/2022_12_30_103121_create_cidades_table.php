@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('voos_tarifas', function (Blueprint $table) {
+        Schema::create('cidades', function (Blueprint $table) {
             $table->id();
-            $table->float('preco');
-            $table->unsignedBigInteger('id_voo');
-            $table->unsignedBigInteger('id_tarifa');
+            $table->string('nome');
+            $table->string('codigo');
+            $table->unsignedBigInteger('id_pais');
             $table->timestamps();
-            $table->foreign('id_voo')->references('id')->on('voos');
-            $table->foreign('id_tarifa')->references('id')->on('tarifas');
+            $table->foreign('id_pais')->references('id')->on('paises');
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('voos_tarifas');
+        Schema::dropIfExists('cidades');
     }
 };

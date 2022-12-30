@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('historicos', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->string('nome');
-            $table->string('sobrenome');
-            $table->string('email');
-            $table->integer('telefone');
             $table->date('data');
+            $table->unsignedBigInteger('id_voo');
+            $table->unsignedBigInteger('id_user');
+            $table->integer('estado')->default(1);
             $table->timestamps();
+            $table->foreign('id_voo')->references('id')->on('voos');
+            $table->foreign('id_user')->references('id')->on('users');        
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clientes');
+        Schema::dropIfExists('historicos');
     }
 };

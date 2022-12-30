@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('escalas', function (Blueprint $table) {
+        Schema::create('lugares', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_voo');
+            $table->string('numero');
+            $table->integer('in_janela');
+            $table->unsignedBigInteger('id_aviao');
+            $table->integer('estado')->default(1);
             $table->timestamps();
-            $table->foreign('id_voo')->references('id')->on('voos');
-
+            $table->foreign('id_aviao')->references('id')->on('avioes');
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('escalas');
+        Schema::dropIfExists('lugares');
     }
 };

@@ -13,18 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('voos', function (Blueprint $table) {
+        Schema::create('escalas', function (Blueprint $table) {
             $table->id();
-            $table->string('origem');
-            $table->string('destino');
-            $table->date('data_partida');
-            $table->integer('duracao_estimada');
-            $table->time('hora');
-            $table->unsignedBigInteger('id_aviao');
             $table->unsignedBigInteger('id_aeroporto');
+            $table->unsignedBigInteger('id_voo');
             $table->timestamps();
-            $table->foreign('id_aviao')->references('id')->on('avioes');
             $table->foreign('id_aeroporto')->references('id')->on('aeroportos');
+            $table->foreign('id_voo')->references('id')->on('voos');
         });
     }
 
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('voos');
+        Schema::dropIfExists('escalas');
     }
 };

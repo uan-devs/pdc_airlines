@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_cidade');
             $table->timestamps();
             $table->foreign('id_cidade')->references('id')->on('cidades');
-
         });
     }
 

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign("id_papel")->references("id")->on("papeis");
             $table->foreign("id_permissao")->references("id")->on("permissoes");
-           
         });
     }
 
