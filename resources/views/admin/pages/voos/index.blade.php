@@ -23,23 +23,28 @@
                     <th scope="col">Destino</th>
                     <th scope="col">Data</th>
                     <th scope="col">Hora</th>
-                    <th scope="col">Tipo</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acções</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($voos as $voo):
                     <tr>
-                        <td>1</td>
-                        <td>Rio de Janeiro, Brasil</td>
-                        <td>Luanda, Angola</td>
-                        <td>14/02/2022</td>
-                        <td>10:00</td>
-                        <td>Ida</td>
+                        <td>{{$voo->id_flight}}</td>
+                        <td> {{$voo->origin_city}}, {{$voo->origin_airport}}</td>
+                        <td>{{$voo->destiny_city}}, {{$voo->destiny_airport}}</td>
+                        <td>{{$voo->date_}}</td>
+                        <td>{{$voo->time_}}</td>
                         <td>
-                          <span class="btn btn-success">Partida</span>
+                            @if($voo->state):
+                              <span class="btn btn-small btn-success">Activo</span>
+                            @else:
+                              <span class="btn btn-small btn-danger">Cancelado</span>
+                            @endif
                         </td>
+                        
                     </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
