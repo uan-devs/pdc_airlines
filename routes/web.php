@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VooController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// PORTAL ROUTES 
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+
+// ADMIN ROUTES
+
+Route::middleware(['auth'])->group(function(){
+
+
+    Route::get('/admin/dashboard',function(){
+        return view("admin.pages.dashboard");
+    })->name("dashboard");
+    
+    
+    Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
+
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
