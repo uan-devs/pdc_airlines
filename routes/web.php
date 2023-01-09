@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AviaoController;
 use App\Http\Controllers\VooController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,20 @@ Route::middleware(['auth'])->group(function(){
     })->name("dashboard");
     
     
+    // ROTAS DE VOOS
     Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
+    Route::get("/admin/voos/create",[VooController::class, "create"])->name("voos.create");
+    Route::post("/admin/voos/store/",[VooController::class, "store"])->name("voos.store");
+    Route::get('/admin/voos/{id}',[VooController::class, "show"])->name('voos.show');
+    Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
+    Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
+    Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
 
-});
+    // ROTAS DE AVIOES
+    Route::get("admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
+    
+    
+}); 
 
 
 Auth::routes();

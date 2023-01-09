@@ -9,5 +9,5 @@ class Voo extends Model
 {
     use HasFactory;
 
-    protected $table = "flights";
+    protected $table = "voos";
 }

@@ -1,5 +1,5 @@
 @extends('admin.layout.template')
-@section('title','Visa - Vistos')
+@section('title','PDC Airlines - Lista de Voos')
 
 
 @section('content')
@@ -28,19 +28,24 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($voos as $voo):
-                    <tr>
-                        <td>{{$voo->id_flight}}</td>
-                        <td> {{$voo->origin_city}}, {{$voo->origin_airport}}</td>
-                        <td>{{$voo->destiny_city}}, {{$voo->destiny_airport}}</td>
-                        <td>{{$voo->date_}}</td>
-                        <td>{{$voo->time_}}</td>
+                  @foreach($voos as $voo)
+                    <tr style="color: black;">
+                        <td>{{$voo->id_voo}}</td>
+                        <td> {{$voo->cidade_origem}}, {{$voo->aeroporto_origem}}</td>
+                        <td>{{$voo->cidade_destino}}, {{$voo->aeroporto_destino}}</td>
+                        <td>{{$voo->data_partida}}</td>
+                        <td>{{$voo->hora}}</td>
                         <td>
-                            @if($voo->state):
-                              <span class="btn btn-small btn-success">Activo</span>
+                            @if($voo->estado == '1')
+                              <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Activo</span>
+                            @elseif($voo->estado == '0')
+                              <span class=" px-3 btn btn-sm" style="background-color: #fd7e14;color:white">Inactivo</span>
                             @else:
-                              <span class="btn btn-small btn-danger">Cancelado</span>
+                              <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Cancelado</span>
                             @endif
+                        </td>
+                        <td>
+                          <a href="{{route('voos.show',$voo->id_voo)}}" class="px-3 btn  btn-info btn-sm">Ver</a>
                         </td>
                         
                     </tr>
