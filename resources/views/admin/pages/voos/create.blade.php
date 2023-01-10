@@ -39,7 +39,7 @@
                                 <label for="">Avião</label>
                                 <select name="aviao" id="" class="form-control ">
                                     @foreach($avioes as $item)
-                                        <option value="{{$item->id}}">{{$item->id}}- {{$item->modelo}}, {{$item->tipo}}</option>
+                                        <option value="{{$item->id}}">{{$item->id}}- {{$item->modelo}}</option>
                                     @endforeach
                                 </select>
                         </div>

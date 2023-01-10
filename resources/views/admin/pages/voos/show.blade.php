@@ -45,7 +45,7 @@
                     @if($voo->estado=='1')
                     <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-success py-1 px-2 rounded-lg">Activo</span></h6>
                     @elseif($voo->estado == '0')
-                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-warning py-1 px-2 rounded-lg">Inactivo</span></h6>
+                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-danger py-1 px-2 rounded-lg">Inactivo</span></h6>
                     @else()
                     <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-danger py-1 px-2 rounded-lg">Cancelado</span></h6>
                     @endif
