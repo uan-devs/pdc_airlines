@@ -27,11 +27,14 @@
                     @foreach($lugares as $lugar)
                             @if($lugar->id_coluna == $coluna->id)
                               <span class="mx-1 d-flex flex-column ">
-                                <span class="px-3 py-2 rounded-lg {{($lugar->estado==0)?'free':'ocupado'}} text-white"
+                                  <span class="px-3 py-2 rounded-lg {{($lugar->estado==0)?'free':'ocupado'}} text-white"
                                       data-id="{{$lugar->id_lugar}}" style="cursor: pointer;">
                                     {{$lugar->numero}}
                                   </span>
-                                <span class="text-dark text-center" style="font-size: 0.6em;color:black!important;">{{$lugar->tarifa}}</span>
+                                  <span class="text-dark text-center" 
+                                      style="font-size: 0.6em;color:black!important;font-weight:bolder">
+                                      {{$lugar->tarifa}}
+                                  </span>
                               </span>
                             
                             @endif

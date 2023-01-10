@@ -17,26 +17,31 @@
                 <div class="col-4">
                     <h6 class="font-weight-bold">Aviao Nº: <span class="text-primary">{{$aviao->id}}</span></h6>
                 </div>
-                <div class="col-4">
-                    <h6 class="font-weight-bolder">Tipo: <span class="text-primary text-capitalize">{{$aviao->tipo}}</span></h6>
-                </div>
-                <div class="col-4">
-                    <h6 class="font-weight-bolder">Modelo: <span class="text-primary">{{$aviao->modelo}}</span></h6>
-                </div>
-            </div>
-            <div class="row font-weight-bold mb-3">
+                
+                
                 <div class="col-4">
                     <h6 class="font-weight-bold">Capacidade: <span class="text-primary">{{$aviao->capacidade}}</span></h6>
                 </div>
+                
                 <div class="col-4">
                     @if($aviao->estado=='1')
                     <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-success py-1 px-2 rounded-lg">Em Funcionamento</span></h6>
                     @elseif($aviao->estado == '0')
-                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-warning py-1 px-2 rounded-lg">Parado</span></h6>
+                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-danger py-1 px-2 rounded-lg">Não Funcionando</span></h6>
                     @else()
                     <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-danger py-1 px-2 rounded-lg">Cancelado</span></h6>
                     @endif
                 </div>
+            </div>
+            <div class="row font-weight-bold mb-3">
+                <div class="col-4">
+                    <h6 class="font-weight-bolder">Modelo: <span class="text-primary">{{$aviao->modelo}}</span></h6>
+                </div>
+                <div class="col-4">
+                  @if($definidos < $aviao->capacidade)
+                    <h6 class="font-weight-bold">Lugares Definidos: <span class="text-danger ">{{$definidos}}</span></h6>
+                  @endif
+                  </div>
             </div>
 
             
@@ -50,10 +55,12 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="">Lugares do Aviao</h5>
                     <div>
+                        @if($aviao->estado != '1')
                         <!-- Button trigger Modal de Tarifa -->
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalNovaTarifa">
                             Adicionar Fileira
                         </button>
+                        @endif
                     </div>
 
                     <!--  MODAL PARA ADICIONAR TARIFA -->
@@ -67,20 +74,18 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form method="post" action="{{route('voos.addTarifa')}}">
+                          <form method="post" action="{{route('avioes.add_fila')}}">
                             @csrf
-                            <input type="hidden" name="id_voo" value="{{$aviao->id}}">
+                            <input type="hidden" name="id_aviao" value="{{$aviao->id}}">
                           <div class="modal-body">
                             
                               <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Identificador da fila:</label>
-                                <select name="fila" id="" class="form-control">
-                                    
-                                </select>
+                                <label for="identificador" class="col-form-label">Identificador da fila:</label>
+                                <input type="text" name="identificador" id="" class="form-control">
                               </div>
                               <div class="form-group">
-                                <label for="preco" class="col-form-label">Quantidade de lugares na fila:</label>
-                                <input type="number" name="qtd" class="form-control" id="preco">
+                                <label for="qtd" class="col-form-label">Quantidade de lugares na fila:</label>
+                                <input type="number" name="qtd" class="form-control" id="qtd">
                               </div>
                               
                             
