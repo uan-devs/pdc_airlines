@@ -38,6 +38,20 @@
             </a>
         </li>
         <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aeroporto</span>
+            </a>
+            <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('voos')}}">Lista de Aeroportos</a>
+                    <a class="collapse-item" href="{{route('voos.create')}}">Novo Aeroporto</a>
+                </div>
+            </div>
+
+        </li>
         
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"

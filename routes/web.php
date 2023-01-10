@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AviaoController;
 use App\Http\Controllers\VooController;
+use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,7 +48,10 @@ Route::middleware(['auth'])->group(function(){
     // ROTAS DE AVIOES
     Route::get("admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
     
-    
+    //rotas de aeroporto
+  
+    Route::get('/admin/aeroporto/{id}',[AeroportoController::class, "show"])->name("show");
+    Route::get("/admin/aeroporto/create",[AeroportoController::class, "create"])->name("aeroporto.create");
 }); 
 
 
