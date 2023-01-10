@@ -1,0 +1,49 @@
+
+ul{
+    list-style-type: none;
+}
+
+a:hover{
+    text-decoration: none;
+}
+.hover-sublinhado{
+
+}
+.hover-sublinhado:hover{
+    text-decoration: underline;
+}
+
+.link{
+    padding: 8px;
+    border-radius: 9px;
+    font-weight: bold;
+}
+.link:hover{
+    background-color: rgba(0,0,0,0.6);
+    transition: 0.3s;
+}
+img{
+    width: 100%;
+}
+.flag{
+    padding: 5px;
+    cursor: pointer;
+    width: 100px;
+    height:80px;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+.flag:hover{
+    transition: 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.focus-danger:focus {
+    color: #495057;
+    /* background-color: #fff; */
+    border-color: #f8c0c0 !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem #aa4c4c !important;
+  }
+
+  
+  

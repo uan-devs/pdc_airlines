@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AviaoController;
+use App\Http\Controllers\VooController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// PORTAL ROUTES 
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+
+// ADMIN ROUTES
+
+Route::middleware(['auth'])->group(function(){
+
+
+    Route::get('/admin/dashboard',function(){
+        return view("admin.pages.dashboard");
+    })->name("dashboard");
+    
+    
+    // ROTAS DE VOOS
+    Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
+    Route::get("/admin/voos/create",[VooController::class, "create"])->name("voos.create");
+    Route::post("/admin/voos/store/",[VooController::class, "store"])->name("voos.store");
+    Route::get('/admin/voos/{id}',[VooController::class, "show"])->name('voos.show');
+    Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
+    Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
+    Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
+
+    // ROTAS DE AVIOES
+    Route::get("admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
+    Route::post("/admin/avioes/add-fila",[AviaoController::class, "addFila"])->name("avioes.add_fila");
+    
+    
+}); 
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

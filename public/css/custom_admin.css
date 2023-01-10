@@ -1,0 +1,19 @@
+
+.free{
+    background-color: #4e73df !important;
+    color: white;
+}
+
+.selected{
+    background-color: #28a745;
+    color: white;
+}
+
+.ocupado{
+    background-color: #bd2b39 !important;
+    color: white;
+}
+.janela{
+    background-color: #20c997 !important;
+    color: white;
+}
