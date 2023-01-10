@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function(){
 
     // ROTAS DE AVIOES
     Route::get("admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
+    Route::post("/admin/avioes/add-fila",[AviaoController::class, "addFila"])->name("avioes.add_fila");
     
     
 }); 
