@@ -200,6 +200,7 @@ class VooController extends Controller
         ->join("voo_tarifas","voo_tarifas.id","=","voo_lugares.id_voo_tarifa")
         ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
         ->where("voo_tarifas.id_voo","=",$id)
+        ->orderBy("voo_lugares.id")
         ->select("voo_lugares.id as id_lugar","voo_lugares.estado","lugares.numero","lugares.id_coluna","lugares.in_janela",
         "voo_tarifas.id_tarifa","tarifas.nome as tarifa")
         ->get()->toArray();
@@ -260,6 +261,8 @@ class VooController extends Controller
             return redirect()->back()->with("error","Origem e Destino devem ser diferentes");
         }else if($this->hasConflict($request)){
             return redirect()->back()->with("error","Conflito de Horários. Selecione uma outra data ou outro avião");
+        }else if(!($this->isAviaoActivo($request->aviao))){
+            return redirect()->back()->with("error","Avião não está em funcionamento.Provavelmente não tem lugares definidos ou foi retirado de circulação");
         }
         try{
 
@@ -311,6 +314,11 @@ class VooController extends Controller
 
             dd($voos);
                 return false;
+    }
+    public function isAviaoActivo($id_aviao)
+    {
+        $aviao = Aviao::find($id_aviao);
+        return ($aviao->estado == 1);
     }
 
 }

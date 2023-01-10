@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('avioes', function (Blueprint $table) {
+        Schema::create('lugares', function (Blueprint $table) {
             $table->id();
-            $table->string('modelo');
-            $table->string('descricao');
-            $table->integer('capacidade');
+            $table->string('numero');
+            $table->integer('in_janela');
+            $table->unsignedBigInteger('id_aviao');
+            $table->unsignedBigInteger('id_coluna');
             $table->integer('estado')->default(1);
             $table->timestamps();
+            $table->foreign('id_aviao')->references('id')->on('avioes');
+            $table->foreign('id_coluna')->references('id')->on('colunas');
         });
     }
 
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('avioes');
+        Schema::dropIfExists('lugares');
     }
 };
