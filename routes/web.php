@@ -52,7 +52,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get("admin/clientes/membros",[ClienteController::class,"getMembros"])->name("clientes_membros");
 
     // ROTAS PARA COMPRAS E BILHETES
-    Route::get("admin/bilhetes",[BilheteController::class,"index"])->name("bilhetes");
+    Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
+    Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
 }); 
 
 
