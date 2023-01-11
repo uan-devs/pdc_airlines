@@ -89,18 +89,26 @@
                 <span>Frotas</span>
             </a>
         </li>
-        <!-- Nav Item - Users -->
+        <!-- Nav Item - Clientes -->
         <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <i class="fas fa-flag"></i>
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
                 <span>Clientes</span>
             </a>
+            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('clientes_normais')}}">Clientes Normais</a>
+                    <a class="collapse-item" href="{{route('clientes_membros')}}">Clientes Membros</a>
+                </div>
+            </div>
+
         </li>
         <!-- Nav Item - Users -->
         <li class="nav-item active">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{route('bilhetes')}}">
                 <i class="fas fa-clone"></i>
-                <span>Compras</span>
+                <span>Bilhetes</span>
             </a>
         </li>
         <!-- Nav Item - Users -->
