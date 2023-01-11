@@ -38,6 +38,20 @@
             </a>
         </li>
         <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse2"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aeroporto</span>
+            </a>
+            <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('aeroporto.show')}}">Lista de Aeroportos</a>
+                    <a class="collapse-item" href="{{route('aeroporto.create')}}">Novo Aeroporto</a>
+                </div>
+            </div>
+
+        </li>
         
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"
@@ -53,6 +67,21 @@
             </div>
 
         </li>
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aviões</span>
+            </a>
+            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('avioes.listagem')}}">Lista de Aviões</a>
+                    <a class="collapse-item" href="{{route('avioes.create')}}">Novo Avião</a>
+                </div>
+            </div>
+
+        </li>
+        
         <!-- Nav Item - Users -->
         <li class="nav-item active">
             <a class="nav-link" href="#">

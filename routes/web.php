@@ -4,6 +4,7 @@ use App\Http\Controllers\AviaoController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VooController;
+use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,8 +45,17 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
 
     // ROTAS DE AVIOES
-    Route::get("admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
+    
+    Route::get("/admin/avioes/create",[AviaoController::class,"create"])->name("avioes.create");
+    Route::get("/admin/avioes/listagem",[AviaoController::class,"listagem"])->name("avioes.listagem");
     Route::post("/admin/avioes/add-fila",[AviaoController::class, "addFila"])->name("avioes.add_fila");
+    Route::post("/admin/avioes/create",[AviaoController::class, "store"]);
+    //Route::get("/admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
+    //rotas de aeroporto
+  
+    Route::get('/admin/aeroporto/',[AeroportoController::class, "show"])->name("aeroporto.show");
+    Route::get('/admin/aeroporto/create',[AeroportoController::class, "create"])->name("aeroporto.create");
+    Route::post("/admin/aeroporto/create",[AeroportoController::class, "store"]);
     
     // ROTAS DE CLIENTES
     Route::get("admin/clientes/normais",[ClienteController::class,"getNormals"])->name("clientes_normais");
