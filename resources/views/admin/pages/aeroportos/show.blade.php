@@ -1,59 +1,57 @@
 @extends('admin.layout.template')
-@section('title', 'PDC Airline - Voo')
+@section('title', 'PDC Airline - aeroporto')
 
 @section('content')
     <main class="h-full pb-16 overflow-y-auto">
-        <div class="container grid px-0 mx-auto">
-            <div class="">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
-                        Detalhes do aeroporto
-                    </h2>
+    <div class="container grid px-0 mx-auto">
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
+            Listagem de Aeroportos
+        </h2>
 
-                </div>
-
-                <div class="mt-3">
-                    <div class="border rounded ">
-                        <table class="table">
-                            <thead class="thead-dark justify-right">
-                                <tr>
-                                    <th scope="col">#</th>
-
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Cidade</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        
-    @foreach($aeroporto as $aeroportos)
-           
-        <div class="w-full mb-3 p-3 overflow-hidden bg-white rounded-lg shadow-xs ">
-                <div class="row font-weight-bold">
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Nome: <span
-                                class="text-primary text-capitalize">{{ $aeroportos->nome }}</span></h6>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Cidade: <span
-                                class="text-primary text-capitalize">
-                                @foreach($cidade as $city)
+        <!-- TABELA  -->
+        <div class="w-full p-3 overflow-hidden bg-white rounded-lg shadow-xs">
+            
+            <div class="border rounded">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($aeroporto as $aeroportos)
+                    <tr style="color: black;">
+                        <td>{{$aeroportos->id}}</td>
+                        <td> {{$aeroportos->nome}}</td>
+                        <td>@foreach($cidade as $city)
                                 @if($city->id == $aeroportos->id_cidade)
                                 {{ $city->nome }}
                                 @endif
-                                @endforeach
-                            </span></h6>
-                    </div>
-                </div>
+                                @endforeach</td>                       
+                       
+                              
+                        <td>
+                        <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Em Funcionamento</span>
+                        </td>
+                        
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-2 p-2 w-full d-flex justify-content-center">
+              <div class="">
+               
+              </div>
+            </div>
 
         </div>
-            
-    @endforeach
-    
+
+
+    </div>
 
     </main>
 

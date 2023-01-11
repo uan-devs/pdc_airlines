@@ -3,61 +3,61 @@
 
 @section('content')
     <main class="h-full pb-16 overflow-y-auto">
-        <div class="container grid px-0 mx-auto">
-            <div class="">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
-                        Detalhes do Avião
-                    </h2>
+    <div class="container grid px-0 mx-auto">
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
+            Voos
+        </h2>
 
-                </div>
-
-                <div class="mt-3">
-                    <div class="border rounded ">
-                        <table class="table">
-                            <thead class="thead-dark justify-right">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Modelo</th>
-                                    <th scope="col">Descrição</th>
-                                    <th scope="col">Capacidade</th>
-                                    <th scope="col">Estado</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
+        <!-- TABELA  -->
+        <div class="w-full p-3 overflow-hidden bg-white rounded-lg shadow-xs">
+            
+            <div class="border rounded">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Capacidade</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acções</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($aviao as $avioes)
+                    <tr style="color: black;">
+                        <td>{{$avioes->id}}</td>
+                        <td> {{$avioes->modelo}}</td>
+                        <td>{{$avioes->descricao}}</td>
+                        <td>{{$avioes->capacidade}}</td>                        
+                        <td>
+                            @if($avioes->estado == '1')
+                              <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Activo</span>
+                            @elseif($avioes->estado == '0')
+                              <span class=" px-3 btn btn-sm" style="background-color: #fd7e14;color:white">Inactivo</span>
+                            @else:
+                              <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Cancelado</span>
+                            @endif
+                        </td>
+                        <td>
+                          <a href="{{route('avioes.show',$avioes->id)}}" class="px-3 btn  btn-info btn-sm">Ver</a>
+                        </td>
+                        
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-2 p-2 w-full d-flex justify-content-center">
+              <div class="">
+               
+              </div>
             </div>
 
         </div>
-        
-    @foreach($aviao as $avioes)
-           
-        <div class="w-full mb-3 p-3 overflow-hidden bg-white rounded-lg shadow-xs ">
-                <div class="row font-weight-bold">
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">id: <span
-                                class="text-primary text-capitalize">{{ $avioes->id }}</span></h6>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Modelo: <span
-                                class="text-primary text-capitalize">{{ $avioes->modelo }}</span></h6>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Descrição: <span
-                                class="text-primary text-capitalize">{{ $avioes->descricao }}</span></h6>
-                    </div>
-                   <div class="col-4">
-                        <h6 class="font-weight-bolder">Capacidade: <span
-                                class="text-primary text-capitalize">{{ $avioes->capacidade }}</span></h6>
-                    </div>
-                </div>
 
-        </div>
-            
-    @endforeach
-    
 
+    </div>
     </main>
 
 
