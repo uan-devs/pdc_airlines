@@ -51,8 +51,10 @@ Route::middleware(['auth'])->group(function(){
     
     //rotas de aeroporto
   
-    Route::get('/admin/aeroporto/{id}',[AeroportoController::class, "show"])->name("show");
-    Route::get("/admin/aeroporto/create",[AeroportoController::class, "create"])->name("aeroporto.create");
+    Route::get('/admin/aeroporto/',[AeroportoController::class, "show"])->name("aeroporto.show");
+    Route::get('/admin/aeroporto/create',[AeroportoController::class, "create"])->name("aeroporto.create");
+    Route::post("/admin/aeroporto/create",[AeroportoController::class, "store"]);
+    
 }); 
 
 
