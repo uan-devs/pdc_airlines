@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AviaoController;
+use App\Http\Controllers\BilheteController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
@@ -26,15 +28,12 @@ Route::get('/', function () {
 
 
 
-// ADMIN ROUTES
-
+// ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
-
 
     Route::get('/admin/dashboard',function(){
         return view("admin.pages.dashboard");
     })->name("dashboard");
-    
     
     // ROTAS DE VOOS
     Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
@@ -58,6 +57,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/aeroporto/create',[AeroportoController::class, "create"])->name("aeroporto.create");
     Route::post("/admin/aeroporto/create",[AeroportoController::class, "store"]);
     
+    // ROTAS DE CLIENTES
+    Route::get("admin/clientes/normais",[ClienteController::class,"getNormals"])->name("clientes_normais");
+    Route::get("admin/clientes/membros",[ClienteController::class,"getMembros"])->name("clientes_membros");
+
+    // ROTAS PARA COMPRAS E BILHETES
+    Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
+    Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
 }); 
 
 
