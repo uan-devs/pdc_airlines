@@ -254,6 +254,7 @@ class VooController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         if(!$request->data || !$request->hora || !$request->duracao)
         {
             return redirect()->back()->with("error","Preencha todos os campos obrigatórios");
