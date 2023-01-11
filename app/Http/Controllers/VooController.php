@@ -247,8 +247,8 @@ class VooController extends Controller
         $avioes = Aviao::all();
 
         return view("admin.pages.voos.create",[
-           c,
-            "avioes"     => $avioes
+           "aeroportos" => $aeroportos,
+            "avioes" => $avioes
         ]);
     }
 

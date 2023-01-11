@@ -67,6 +67,21 @@
             </div>
 
         </li>
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aviões</span>
+            </a>
+            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('avioes.listagem')}}">Lista de Aviões</a>
+                    <a class="collapse-item" href="{{route('avioes.create')}}">Novo Avião</a>
+                </div>
+            </div>
+
+        </li>
+        
         <!-- Nav Item - Users -->
         <li class="nav-item active">
             <a class="nav-link" href="#">

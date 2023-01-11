@@ -18,18 +18,10 @@ class AeroportoController extends Controller
 {
     public function show()
     {
-        $aeroporto = Aeroporto :: all();  //DB::table("aeroportos")
-               // ->join("aeroportos.id_cidade","cidade.id")
-               // ->where("aeroportos.id","=",$id)
-               // ->select("aeroportos.id as id_aeroporto","aeroportos.nome as nome")
-               // ->first();
+        $aeroporto = Aeroporto :: all(); 
                $cidade = DB::table("cidades")
                         ->select("cidades.id as id","cidades.nome as nome")
                         ->get();
-
-
-        //$values = array_values($id->values()->toArray());
-    
        return view("admin.pages.aeroportos.show",[
             "aeroporto" => $aeroporto,
             "cidade" => $cidade,

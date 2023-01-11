@@ -36,7 +36,31 @@ class AviaoController extends Controller
             "definidos" => count($lugares)
         ]);
     }
+    public function listagem()
+    {
+        $aviao = Aviao :: all();
+       return view("admin.pages.avioes.listagem",[
+            "aviao" => $aviao,
+        ]);
+    }
+    
+    public function create() 
+    {
+        return view("admin.pages.avioes.create",[
+           
+        ]);
+    }
+    
+public function store(Request $request) {
+    $aviao = new Aviao;
+    
+    $aviao->modelo = $request->modelo;
+    $aviao->descricao = $request->descricao;
+    $aviao->capacidade = $request->capacidade;
 
+    $aviao->save();
+    return redirect("/admin/avioes/create");
+}
     public function addFila(Request $request)
     {
         if(!$request->identificador || !$request->qtd || !$request->id_aviao)
