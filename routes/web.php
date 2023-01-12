@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\AviaoController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +25,13 @@ use Illuminate\Support\Facades\Route;
 // PORTAL ROUTES 
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Home/index', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
-
-
-
 
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
@@ -65,7 +70,6 @@ Route::middleware(['auth'])->group(function(){
     Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
     Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
 }); 
-
 
 Auth::routes();
 
