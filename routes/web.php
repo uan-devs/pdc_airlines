@@ -3,6 +3,7 @@
 use App\Http\Controllers\AviaoController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\VooController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,8 @@ Route::middleware(['auth'])->group(function(){
     // ROTAS PARA COMPRAS E BILHETES
     Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
     Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
+    Route::get("admin/tarifas",[TarifaController::class,"index"])->name("tarifas");
+    
 }); 
 
 
