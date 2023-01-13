@@ -185,7 +185,7 @@
                                 <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Definições
                             </a>
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{{route('portal')}}">
                                 <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Ir ao Portal
                             </a>

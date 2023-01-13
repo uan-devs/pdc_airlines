@@ -31,7 +31,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('portal');
 
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
