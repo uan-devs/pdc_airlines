@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get("/admin/avioes/listagem",[AviaoController::class,"listagem"])->name("avioes.listagem");
     Route::post("/admin/avioes/add-fila",[AviaoController::class, "addFila"])->name("avioes.add_fila");
     Route::post("/admin/avioes/create",[AviaoController::class, "store"]);
-    //Route::get("/admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
+    Route::get("/admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
     //rotas de aeroporto
 
     Route::get('/admin/aeroporto/',[AeroportoController::class, "show"])->name("aeroporto.show");
