@@ -13,6 +13,7 @@ import 'aos/dist/aos.css'
 
 import * as C from './style'
 import arrow from '../../../../assets/images/down-arrow.svg'
+import { useNavigate } from 'react-router-dom'
 
 // https://www.youtube.com/watch?v=79rgF2VK_4E
 
@@ -20,11 +21,64 @@ const Welcome = ({ title, description, background }) => {
     const [trip, setTrip] = useState('')
     const [origin, setOrigin] = useState('')
     const [destiny, setDestiny] = useState('')
-    const [date, setDate] = useState(null)
+    const [origins, setOrigins] = useState([])
+    const [destinies, setDestinies] = useState([])
+    const [date, setDate] = useState('')
+    const [disableButton, setDisableButton] = useState(true)
+    const navigate = useNavigate()
 
     useEffect(() => {
         Aos.init({ duration: 1500 })
     }, [])
+    useEffect(() => {
+        const places = [
+            {
+                id: '1',
+                name: 'Luanda',
+                country: 'AO',
+            },
+            {
+                id: '2',
+                name: 'Dubai',
+                country: 'EAU',
+            },
+            {
+                id: '3',
+                name: 'New York',
+                country: 'USA',
+            },
+            {
+                id: '4',
+                name: 'Bali',
+                country: 'IN',
+            },
+            {
+                id: '5',
+                name: 'Lisboa',
+                country: 'PT',
+            },
+        ]
+        setOrigins(places)
+        setDestinies(places)
+    }, [])
+
+    useEffect(() => {
+        if(trip !== undefined && trip !== '' && origin !== undefined && origin !== '' && destiny !== undefined && destiny !== '' && date !== undefined && date !== '') {
+            setDisableButton(false)
+        }
+    }, [trip, origin, destiny, date])
+
+    const handleSearch = () => {
+        if(disableButton) return
+
+        localStorage.setItem('pdcAirlineUAN2022', JSON.stringify({
+            origin: origin,
+            destiny: destiny,
+            date: date,
+            trip: trip,
+        }))
+        navigate('/flySearch')
+    }
 
     return (
         <C.Wrap bgImage={background}>
@@ -71,9 +125,13 @@ const Welcome = ({ title, description, background }) => {
                             },
                         }}
                     >
-                        <MenuItem value='a'>Ida e volta</MenuItem>
-                        <MenuItem value='b'>Só ida</MenuItem>
-                        <MenuItem value='c'>Múltiplas cidades</MenuItem>
+                        {
+                            origins.map((o, index) => (
+                                <MenuItem value={o.id} key={index}>
+                                    {o.name}
+                                </MenuItem>
+                            ))
+                        }
                     </Select>
                 </FormControl>
                 <FormControl
@@ -113,9 +171,13 @@ const Welcome = ({ title, description, background }) => {
                             },
                         }}
                     >
-                        <MenuItem value='a'>Ida e volta</MenuItem>
-                        <MenuItem value='b'>Só ida</MenuItem>
-                        <MenuItem value='c'>Múltiplas cidades</MenuItem>
+                        {
+                            destinies.reverse().map((d, index) => (
+                                <MenuItem value={d.id} key={index}>
+                                    {d.name}
+                                </MenuItem>
+                            ))
+                        }
                     </Select>
                 </FormControl>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -171,12 +233,12 @@ const Welcome = ({ title, description, background }) => {
                         },
                     }}
                 >
-                    <InputLabel id='demo-simple-select-label'>Preço</InputLabel>
+                    <InputLabel id='demo-simple-select-label'>Viagem</InputLabel>
                     <Select
                         labelId='demo-simple-select-label'
                         id='demo-simple-select'
                         value={trip}
-                        label='Preço'
+                        label='Viagem'
                         onChange={(e) => setTrip(e.target.value)}
                         sx={{
                             transitionDuration: '500ms',
@@ -185,12 +247,20 @@ const Welcome = ({ title, description, background }) => {
                             },
                         }}
                     >
-                        <MenuItem value='a'>90.000 - 200.000 kz</MenuItem>
-                        <MenuItem value='b'>200.000 - 500.000 kz</MenuItem>
-                        <MenuItem value='c'>&gt; 500.000 kz</MenuItem>
+                        <MenuItem value='1'>
+                            Só Ida
+                        </MenuItem>
+                        <MenuItem value='2'>
+                            Ida e Volta
+                        </MenuItem>
                     </Select>
                 </FormControl>
-                <C.BoxButton>Search</C.BoxButton>
+                <C.BoxButton
+                    onClick={() => handleSearch()} disabled={disableButton}
+                    className={`${disableButton ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                    Search
+                </C.BoxButton>
             </C.Box>
 
             <C.DownArrow src={arrow} />
