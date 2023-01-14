@@ -5,6 +5,9 @@ use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
+use App\Http\Controllers\EscalaController;
+use App\Http\Controllers\RegaliaController;
+use App\Http\Controllers\Tarifa_regaliasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +60,19 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/aeroporto/create',[AeroportoController::class, "create"])->name("aeroporto.create");
     Route::post("/admin/aeroporto/create",[AeroportoController::class, "store"]);
     
+    //rotas para as escalas
+    Route::get('/admin/escala/',[EscalaController::class, "show"])->name("escala.show");
+    Route::get('/admin/escala/create',[EscalaController::class, "create"])->name("escala.create");
+    Route::post("/admin/escala/create",[EscalaController::class, "store"]);
+
+     //rotas para as regalia
+    Route::get('/admin/regalia/create',[RegaliaController::class, "create"])->name("regalia.create");
+    Route::post("/admin/regalia/create",[RegaliaController::class, "store"]);
+    Route::get('/admin/regalia/',[Tarifa_regaliasController::class, "show"])->name("regalia.show");
+    Route::get('/admin/regalia/juntar',[Tarifa_regaliasController::class, "create"])->name("tarifa_regalias.create");
+    Route::post("/admin/regalia/juntar",[Tarifa_regaliasController::class, "store"]);
+    
+
     // ROTAS DE CLIENTES
     Route::get("admin/clientes/normais",[ClienteController::class,"getNormals"])->name("clientes_normais");
     Route::get("admin/clientes/membros",[ClienteController::class,"getMembros"])->name("clientes_membros");

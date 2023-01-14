@@ -68,20 +68,48 @@
 
         </li>
         <li class="nav-item active">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse7"
             aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-book"></i>
                 <span>Aviões</span>
             </a>
-            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapse7" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{route('avioes.listagem')}}">Lista de Aviões</a>
                     <a class="collapse-item" href="{{route('avioes.create')}}">Novo Avião</a>
                 </div>
             </div>
+        </li>
+
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse5"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Escalas</span>
+            </a>
+            <div id="collapse5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('escala.show')}}">Lista de escalas</a>
+                    <a class="collapse-item" href="{{route('escala.create')}}">Criar escalas</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse6"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Regalias</span>
+            </a>
+            <div id="collapse6" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('regalia.show')}}">Lista de Regalias</a>
+                    <a class="collapse-item" href="{{route('regalia.create')}}">Novo Regalia</a>
+                    <a class="collapse-item" href="{{route('tarifa_regalias.create')}}">Associar regalia as Tarifas </a>
+                    
+                </div>
+            </div>
 
         </li>
-        
         <!-- Nav Item - Users -->
         <li class="nav-item active">
             <a class="nav-link" href="#">
