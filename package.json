@@ -27,7 +27,9 @@
         "@emotion/styled": "^11.10.5",
         "@mui/material": "^5.11.4",
         "@mui/x-date-pickers": "^5.0.13",
+        "@popperjs/core": "^2.11.6",
         "aos": "^2.3.4",
+        "bootstrap": "^5.2.3",
         "dayjs": "^1.11.7",
         "react-horizontal-scrolling-menu": "^3.2.3",
         "react-icons": "^4.7.1",
@@ -38,8 +40,6 @@
         "styled-components": "^5.3.6",
         "sweetalert2": "^11.4.8",
         "sweetalert2-react-content": "^5.0.7",
-        "tailwind-styled-components": "^2.2.0",
-        "@popperjs/core": "^2.11.6",
-        "bootstrap": "^5.2.3",
+        "tailwind-styled-components": "^2.2.0"
     }
 }
