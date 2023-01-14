@@ -22,15 +22,14 @@ use Inertia\Inertia;
 */
 
 
-// PORTAL ROUTES 
+// PORTAL ROUTES
 
 Route::get('/', function () {
-    return Inertia::render('Home/index', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('index');
+});
+
+Route::get('/{route}', function () {
+    return Inertia::render('index');
 });
 
 // ROTAS PARA A AREA ADMINISTRATIVA
@@ -39,7 +38,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/dashboard',function(){
         return view("admin.pages.dashboard");
     })->name("dashboard");
-    
+
     // ROTAS DE VOOS
     Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
     Route::get("/admin/voos/create",[VooController::class, "create"])->name("voos.create");
@@ -50,18 +49,18 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
 
     // ROTAS DE AVIOES
-    
+
     Route::get("/admin/avioes/create",[AviaoController::class,"create"])->name("avioes.create");
     Route::get("/admin/avioes/listagem",[AviaoController::class,"listagem"])->name("avioes.listagem");
     Route::post("/admin/avioes/add-fila",[AviaoController::class, "addFila"])->name("avioes.add_fila");
     Route::post("/admin/avioes/create",[AviaoController::class, "store"]);
     //Route::get("/admin/avioes/{id}",[AviaoController::class,"show"])->name("avioes.show");
     //rotas de aeroporto
-  
+
     Route::get('/admin/aeroporto/',[AeroportoController::class, "show"])->name("aeroporto.show");
     Route::get('/admin/aeroporto/create',[AeroportoController::class, "create"])->name("aeroporto.create");
     Route::post("/admin/aeroporto/create",[AeroportoController::class, "store"]);
-    
+
     // ROTAS DE CLIENTES
     Route::get("admin/clientes/normais",[ClienteController::class,"getNormals"])->name("clientes_normais");
     Route::get("admin/clientes/membros",[ClienteController::class,"getMembros"])->name("clientes_membros");
@@ -69,7 +68,7 @@ Route::middleware(['auth'])->group(function(){
     // ROTAS PARA COMPRAS E BILHETES
     Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
     Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
-}); 
+});
 
 Auth::routes();
 
