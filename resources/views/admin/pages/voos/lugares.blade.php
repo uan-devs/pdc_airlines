@@ -25,7 +25,7 @@
                             {{$coluna->identificador}}
                     </h4>
                     @foreach($lugares as $lugar)
-                            @if($lugar->id_coluna == $coluna->id)
+                            @if($lugar->id_fila == $coluna->id)
                               <span class="mx-1 d-flex flex-column ">
                                   <span class="px-3 py-2 rounded-lg {{($lugar->estado==0)?'free':'ocupado'}} text-white"
                                       data-id="{{$lugar->id_lugar}}" style="cursor: pointer;">

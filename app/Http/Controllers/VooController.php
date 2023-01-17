@@ -190,7 +190,7 @@ class VooController extends Controller
                 ->select("voos.id as id_voo","voos.data_partida","voos.hora","voos.estado",
                             "avioes.capacidade","avioes.id as id_aviao")
                  ->first();
-        $colunas = DB::table("colunas")
+        $colunas = DB::table("filas")
                 ->where("id_aviao","=",$voo->id_aviao)
                 ->select("id","identificador")
                 ->get();
@@ -201,7 +201,7 @@ class VooController extends Controller
         ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
         ->where("voo_tarifas.id_voo","=",$id)
         ->orderBy("voo_lugares.id")
-        ->select("voo_lugares.id as id_lugar","voo_lugares.estado","lugares.numero","lugares.id_coluna","lugares.in_janela",
+        ->select("voo_lugares.id as id_lugar","voo_lugares.estado","lugares.numero","lugares.id_fila","lugares.in_janela",
         "voo_tarifas.id_tarifa","tarifas.nome as tarifa")
         ->get()->toArray();
 
