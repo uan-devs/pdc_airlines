@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lugares', function (Blueprint $table) {
+        Schema::create('regalias_tarifas', function (Blueprint $table) {
             $table->id();
-            $table->string('numero');
-            $table->integer('in_janela');
-            $table->unsignedBigInteger('id_aviao');
-            $table->unsignedBigInteger('id_fila');
+            $table->unsignedBigInteger('id_regalia');
+            $table->unsignedBigInteger('id_tarifa');
             $table->integer('estado')->default(1);
+            $table->foreign('id_regalia')->references('id')->on('regalias');
+            $table->foreign('id_tarifa')->references('id')->on('tarifas');
             $table->timestamps();
-            $table->foreign('id_aviao')->references('id')->on('avioes');
-            $table->foreign('id_fila')->references('id')->on('filas');
         });
     }
 
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lugares');
+        Schema::dropIfExists('regalias_tarifas');
     }
 };

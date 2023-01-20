@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('colunas', function (Blueprint $table) {
+        Schema::create('filas', function (Blueprint $table) {
             $table->id();
             $table->string("identificador");
             $table->unsignedBigInteger("id_aviao");
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('colunas');
+        Schema::dropIfExists('filas');
     }
 };
