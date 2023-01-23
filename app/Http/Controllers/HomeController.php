@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $cidades = DB::table("cidades")
+                ->join("aeroportos", "cidades.id", "=", "aeroportos.id_cidade")
+                ->select("cidades.nome as cidade")
+                ->get();
+
+        return Inertia::render('index', [
+            "cidades" => $cidades
+        ]);
     }
 }

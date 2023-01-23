@@ -7,6 +7,7 @@ use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,13 +25,7 @@ use Inertia\Inertia;
 
 // PORTAL ROUTES
 
-Route::get('/', function () {
-    return Inertia::render('index');
-});
-
-Route::get('/{route}', function () {
-    return Inertia::render('index');
-});
+Route::get('/', [HomeController::class, "index"]);
 
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){

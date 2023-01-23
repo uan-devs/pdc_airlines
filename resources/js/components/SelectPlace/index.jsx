@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { AlertSuccess } from '../../utils/Alert'
+import { useBooking } from '../../contexts/BookingContext'
 
 const SelectPlace = () => {
     const [selectedPlaces, setSelectedPlaces] = useState([])
+    const { dispatch } = useBooking()
 
     const info = {
         lugares: [
@@ -33,19 +34,6 @@ const SelectPlace = () => {
         }
     }
 
-    const handleReserve = () => {
-        if (selectedPlaces.length === 0) {
-            return
-        }
-
-        AlertSuccess({
-            title: 'Successo',
-            description: 'Reserva efetuada com sucesso ✅',
-            confirm: () => window.location.reload(),
-            message: 'Baixe o seu recibo',
-        })
-    }
-
     return (
         <div className='w-full min-h-[500px] flex flex-col items-center gap-y-5'>
             <div className='flex gap-x-5 mb-5'>
@@ -61,6 +49,14 @@ const SelectPlace = () => {
                     <p>Selecionado:</p>
                     <div className='bg-[#090] w-3 h-3 rounded-full shadow-xl' />
                 </div>
+            </div>
+
+            <div className='w-full h-20 flex items-center justify-center bg-[#DDD]'>
+                Cabine do piloto
+            </div>
+
+            <div className='w-full h-56 flex items-center justify-center bg-[#DDD]'>
+                Área Executiva
             </div>
 
             <div className='w-full flex items-center'>
@@ -153,7 +149,10 @@ const SelectPlace = () => {
                             bg-[#B81D24] hover:bg-[#980D14] hover:scale-105
                         `}
                         type='submit'
-                        onClick={handleReserve}
+                        onClick={() => dispatch({
+                            type: 'setCurrentStep',
+                            payload: 1,
+                        })}
                     >
                         Compre por {selectedPlaces.length * 5000} kz
                     </button>
@@ -165,39 +164,3 @@ const SelectPlace = () => {
 }
 
 export default SelectPlace
-
-/*
-{
-                    info.lugares.map((lugar, index) => (
-                        <div
-                            key={index}
-                            className={`
-                                w-full h-full flex items-center justify-center
-                                rounded-md text-white
-                                ${lugar.state == '1' ? 'bg-[#C00]' : 'cursor-pointer hover:scale-105 duration-300 ' + (selectedPlaces.includes(lugar.id) ? 'bg-[#090]' : 'bg-[#555]')}
-                            `}
-                            onClick={() => handleSelectPlace(lugar.id, lugar.state)}
-                        >
-                            {index+1}
-                        </div>
-                    ))
-                }
-
-                <div className='flex gap-1 mx-auto'>
-                    {
-                        [1, 2].map((i, index) => (
-                            <div
-                                key={index}
-                                className={`
-                                    w-[30px] h-[30px] flex items-center justify-center
-                                    cursor-pointer hover:scale-105 duration-300
-                                    rounded-md text-white bg-[#555]
-                                `}
-                            >
-                                {i}
-                            </div>
-                        ))
-                    }
-                </div>
-                <div className='mr-auto'>1</div>
-*/
