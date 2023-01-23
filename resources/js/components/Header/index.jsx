@@ -120,7 +120,7 @@ const Header = () => {
                                     </button>
                                 </Tooltip>
                             )}
-                            <a href='/sign'>
+                            <a href='/login'>
                                 <AiOutlineLogin size={20} className='text-white duration-500' />
                             </a>
                         </li>
