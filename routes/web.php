@@ -26,7 +26,7 @@ use Inertia\Inertia;
 // PORTAL ROUTES
 
 Route::get('/', [HomeController::class, "index"]);
-
+Route::get('/portal', [HomeController::class, "index"])->name("portal");
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
 
