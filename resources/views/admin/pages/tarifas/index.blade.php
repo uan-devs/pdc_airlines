@@ -42,7 +42,7 @@
                         <td>{{$item->tarifa}}</td>
                         <td>{{$item->classe}}</td>
                         <td>
-                          <a href="#" class="px-3 btn  btn-info btn-sm">Ver</a>
+                          <a href="{{route('tarifas.regalias',base64_encode($item->id))}}" class="px-3 btn  btn-info btn-sm">Ver Regalias</a>
                         </td>
                         
                     </tr>

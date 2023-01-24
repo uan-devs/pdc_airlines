@@ -67,6 +67,7 @@
                     <a class="collapse-item" href="{{route('voos.create')}}">Novo Voo</a>
                     @endcan
                     <a class="collapse-item" href="{{route('tarifas')}}">Tarifas</a>
+                    <a class="collapse-item" href="{{route('regalias')}}">Regalias</a>
                 </div>
             </div>
 
