@@ -42,4 +42,25 @@ class TarifaController extends Controller
         }
         
     }
+
+    public function getRegalias($idTarifa)
+    {
+        $id = base64_decode($idTarifa);
+        $tarifa = DB::table("tarifas")->where("id","=",$id)->first();
+        // dd($tarifa);
+        $todasregalias = DB::table("regalias")->get();
+
+        $regalias = DB::table("regalias_tarifas")
+                        ->join("regalias","regalias.id","=","regalias_tarifas.id_regalia")
+                        ->join("tarifas","tarifas.id","=","regalias_tarifas.id_tarifa")
+                        ->where("regalias_tarifas.id_tarifa","=",$id)
+                        ->select("regalias.id","regalias.nome","tarifas.nome as tarifa")
+                        ->get();
+        return view("admin.pages.tarifas.regalias",[
+            "regalias" => $regalias,
+            "todasregalias" => $todasregalias,
+            "id_tarifa" => $id,
+            "tarifa" => $tarifa
+        ]);
+    }
 }

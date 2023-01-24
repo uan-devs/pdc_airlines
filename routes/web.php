@@ -11,6 +11,7 @@ use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\RegaliaController;
 use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
@@ -74,11 +75,18 @@ Route::middleware(['auth'])->group(function(){
     // ROTAS PARA COMPRAS E BILHETES
     Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
     Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
-    
+    Route::get("admin/bilhetes/{id}/notify",[BilheteController::class,"notificar"])->name("notificar");
+
     // ROTAS TARIFAS E CLASSES
     Route::get("admin/tarifas",[TarifaController::class,"index"])->name("tarifas");
     Route::post("admin/tarifas",[TarifaController::class,"create"])->name("tarifas.create");
     Route::post("admin/classes",[ClasseController::class,"create"])->name("classes.create");
+    Route::get("admin/tarifas/{id}/regalias",[TarifaController::class,"getRegalias"])->name("tarifas.regalias");
+
+     // ROTAS REGALIAS
+     Route::get("admin/regalias",[RegaliaController::class,"index"])->name("regalias");
+     Route::post("admin/regalias",[RegaliaController::class,"create"])->name("regalias.create");
+     Route::post("admin/tarifas/add-regalia",[RegaliaController::class,"atribuir"])->name("regalias.atribuir");
 
 
     /**Access control routes */
