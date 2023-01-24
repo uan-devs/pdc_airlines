@@ -38,6 +38,7 @@ class VooController extends Controller
 
     public function show($id)
     {
+        $id = base64_decode($id);
         $voo = DB::table("voos")
                 ->join("aeroportos AS ORIGEM","ORIGEM.id","=","voos.id_aeroporto_origem")
                 ->join("cidades as CIDADE_ORIGEM","CIDADE_ORIGEM.id","=","ORIGEM.id_cidade")

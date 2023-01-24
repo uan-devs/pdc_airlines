@@ -28,8 +28,6 @@ Route::get('/', function () {
 });
 
 
-
-
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
 
