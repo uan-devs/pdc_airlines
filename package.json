@@ -1,17 +1,45 @@
 {
+    "name": "pdc_airlines",
     "private": true,
     "scripts": {
         "dev": "vite",
         "build": "vite build"
     },
     "devDependencies": {
+        "@headlessui/react": "^1.4.2",
+        "@inertiajs/inertia": "^0.11.0",
+        "@inertiajs/inertia-react": "^0.8.1",
+        "@inertiajs/progress": "^0.2.6",
+        "@tailwindcss/forms": "^0.5.3",
+        "@vitejs/plugin-react": "^3.0.0",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.2.2",
+        "laravel-vite-plugin": "^0.7.3",
+        "lodash": "^4.17.21",
+        "postcss": "^8.4.18",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwindcss": "^3.2.1",
+        "vite": "^4.0.4"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@mui/material": "^5.11.4",
+        "@mui/x-date-pickers": "^5.0.13",
         "@popperjs/core": "^2.11.6",
-        "axios": "^1.1.2",
+        "aos": "^2.3.4",
         "bootstrap": "^5.2.3",
-        "laravel-vite-plugin": "^0.6.0",
-        "lodash": "^4.17.19",
-        "postcss": "^8.1.14",
-        "sass": "^1.56.1",
-        "vite": "^3.0.0"
+        "dayjs": "^1.11.7",
+        "react-horizontal-scrolling-menu": "^3.2.3",
+        "react-icons": "^4.7.1",
+        "react-loader-spinner": "^5.3.4",
+        "react-promise-tracker": "^2.1.1",
+        "react-router-dom": "^6.6.2",
+        "sass": "^1.57.1",
+        "styled-components": "^5.3.6",
+        "sweetalert2": "^11.4.8",
+        "sweetalert2-react-content": "^5.0.7",
+        "tailwind-styled-components": "^2.2.0"
     }
 }

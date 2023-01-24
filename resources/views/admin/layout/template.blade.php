@@ -38,7 +38,25 @@
             </a>
         </li>
         <!-- Nav Item - Dashboard -->
+<<<<<<< HEAD
         @can('ver-voos')
+=======
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse2"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aeroporto</span>
+            </a>
+            <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('aeroporto.show')}}">Lista de Aeroportos</a>
+                    <a class="collapse-item" href="{{route('aeroporto.create')}}">Novo Aeroporto</a>
+                </div>
+            </div>
+
+        </li>
+        
+>>>>>>> 53dae28fd78552ae5c15865d12d2c2eab329d2cb
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -55,8 +73,26 @@
             </div>
 
         </li>
+<<<<<<< HEAD
         @endcan
         @can('ver-avioes')
+=======
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aviões</span>
+            </a>
+            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('avioes.listagem')}}">Lista de Aviões</a>
+                    <a class="collapse-item" href="{{route('avioes.create')}}">Novo Avião</a>
+                </div>
+            </div>
+
+        </li>
+        
+>>>>>>> 53dae28fd78552ae5c15865d12d2c2eab329d2cb
         <!-- Nav Item - Users -->
         <li class="nav-item active">
             <a class="nav-link" href="#">
@@ -181,7 +217,7 @@
                                 <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Definições
                             </a>
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{{route('portal')}}">
                                 <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Ir ao Portal
                             </a>
