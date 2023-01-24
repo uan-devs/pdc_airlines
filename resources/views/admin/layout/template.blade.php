@@ -38,9 +38,7 @@
             </a>
         </li>
         <!-- Nav Item - Dashboard -->
-<<<<<<< HEAD
         @can('ver-voos')
-=======
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse2"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -56,7 +54,6 @@
 
         </li>
         
->>>>>>> 53dae28fd78552ae5c15865d12d2c2eab329d2cb
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -69,36 +66,26 @@
                     @can('adicionar-voos')
                     <a class="collapse-item" href="{{route('voos.create')}}">Novo Voo</a>
                     @endcan
+                    <a class="collapse-item" href="{{route('tarifas')}}">Tarifas</a>
                 </div>
             </div>
 
         </li>
-<<<<<<< HEAD
         @endcan
         @can('ver-avioes')
-=======
         <li class="nav-item active">
-            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapsePlane"
             aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-book"></i>
-                <span>Aviões</span>
+                <span>Frota</span>
             </a>
-            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapsePlane" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{route('avioes.listagem')}}">Lista de Aviões</a>
                     <a class="collapse-item" href="{{route('avioes.create')}}">Novo Avião</a>
                 </div>
             </div>
 
-        </li>
-        
->>>>>>> 53dae28fd78552ae5c15865d12d2c2eab329d2cb
-        <!-- Nav Item - Users -->
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <i class="fas fa-chart-bar"></i>
-                <span>Frotas</span>
-            </a>
         </li>
         @endcan
         @can('ver-clientes')

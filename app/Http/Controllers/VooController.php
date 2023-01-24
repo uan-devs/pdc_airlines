@@ -50,7 +50,7 @@ class VooController extends Controller
                 "ORIGEM.id as id_origem","ORIGEM.nome as aeroporto_origem","CIDADE_ORIGEM.nome as cidade_origem",
                 "DESTINO.id as id_destino","DESTINO.nome as aeroporto_destino","CIDADE_DESTINO.nome as cidade_destino")
                 ->first();
-
+// dd($voo);
         $tarifas = DB::table("voo_tarifas")
                     ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
                     ->join("classes","classes.id","=","tarifas.id_classe")
@@ -278,7 +278,7 @@ class VooController extends Controller
             $voo->estado = 0;
             $voo->save();
             $id = $voo->getAttribute("id");
-            return redirect()->route("voos.show",$id)->with("success","Voo Cadastrado com sucesso");
+            return redirect()->route("voos.show",base64_encode($id))->with("success","Voo Cadastrado com sucesso");
     
         }catch(Exception $e)
         {
