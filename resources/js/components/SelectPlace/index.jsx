@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { useBooking } from '../../contexts/BookingContext'
+import PropTypes from 'prop-types'
 
-const SelectPlace = () => {
+const SelectPlace = (props) => {
     const [selectedPlaces, setSelectedPlaces] = useState([])
-    const { dispatch } = useBooking()
+    const { closeModal, state, setState } = props
 
     const info = {
         lugares: [
@@ -149,10 +149,7 @@ const SelectPlace = () => {
                             bg-[#B81D24] hover:bg-[#980D14] hover:scale-105
                         `}
                         type='submit'
-                        onClick={() => dispatch({
-                            type: 'setCurrentStep',
-                            payload: 1,
-                        })}
+                        onClick={() => setState(1)}
                     >
                         Compre por {selectedPlaces.length * 5000} kz
                     </button>
@@ -161,6 +158,12 @@ const SelectPlace = () => {
             }
         </div>
     )
+}
+
+SelectPlace.propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    state: PropTypes.string,
+    setState: PropTypes.func,
 }
 
 export default SelectPlace

@@ -25,7 +25,8 @@ use Inertia\Inertia;
 
 // PORTAL ROUTES
 
-Route::get('/', [HomeController::class, "index"]);
+Route::get('/', [HomeController::class, "index"]) ->name("ini");
+Route::post('/flySearch', [HomeController::class, "searchFlights"]);
 Route::get('/portal', [HomeController::class, "index"])->name("portal");
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){

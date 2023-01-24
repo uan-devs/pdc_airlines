@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -9,21 +8,16 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { AlertSuccess } from '../../utils/Alert'
 
-const BookingForm = (props) => {
+const Booking = () => {
     const [documentType, setDocumentType] = useState('')
     const options = [
         { label: 'Passaporte', value: 'passport' },
     ]
-    const { closeModal, state, setState } = props
-
-    console.log(closeModal)
 
     const handleReserve = () => {
         if (documentType === '') {
             return
         }
-
-        closeModal()
 
         AlertSuccess({
             title: 'Successo',
@@ -107,10 +101,4 @@ const BookingForm = (props) => {
     )
 }
 
-BookingForm.propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    state: PropTypes.string,
-    setState: PropTypes.func,
-}
-
-export default BookingForm
+export default Booking

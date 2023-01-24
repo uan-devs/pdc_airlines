@@ -13,7 +13,7 @@
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-react": "^3.0.0",
         "autoprefixer": "^10.4.12",
-        "axios": "^1.2.2",
+        "axios": "^1.2.3",
         "laravel-vite-plugin": "^0.7.3",
         "lodash": "^4.17.21",
         "postcss": "^8.4.18",
@@ -41,8 +41,6 @@
         "styled-components": "^5.3.6",
         "sweetalert2": "^11.4.8",
         "sweetalert2-react-content": "^5.0.7",
-        "tailwind-styled-components": "^2.2.0",
-        "@popperjs/core": "^2.11.6",
-        "bootstrap": "^5.2.3"
+        "tailwind-styled-components": "^2.2.0"
     }
 }
