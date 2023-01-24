@@ -9,6 +9,9 @@ use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccessController;
+use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
 /*
@@ -28,10 +31,12 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('index');
 });
-
-Route::get('/{route}', function () {
+Route::get('/', function () {
     return Inertia::render('index');
-});
+})->name('portal');
+
+
+
 
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
@@ -69,7 +74,28 @@ Route::middleware(['auth'])->group(function(){
     // ROTAS PARA COMPRAS E BILHETES
     Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
     Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
+    
+    // ROTAS TARIFAS E CLASSES
     Route::get("admin/tarifas",[TarifaController::class,"index"])->name("tarifas");
+    Route::post("admin/tarifas",[TarifaController::class,"create"])->name("tarifas.create");
+    Route::post("admin/classes",[ClasseController::class,"create"])->name("classes.create");
+
+
+    /**Access control routes */
+    Route::get("/admin/papeis",[AccessController::class, "getPapeis"])->name("papeis");
+    Route::get("/admin/papeis/{id}/permissoes",[AccessController::class, "getPapelPermissoes"])->name("papeis.permissoes");
+    Route::post("/admin/papeis/store",[AccessController::class, "setPapeis"])->name("papeis.store");
+    Route::get("/admin/permissoes",[AccessController::class, "getPermissoes"])->name("permissoes");
+    Route::post("/admin/permissoes",[AccessController::class, "setPermissoes"])->name("permissoes.store");
+    Route::post("/admin/papeis/new-permissao",[AccessController::class, "atribuirPermissao"])->name("permissoes.atribuir");
+    Route::get("/admin/users/{id}/permissoes",[AccessController::class, "getUserPermissoes"])->name("users.permissoes");
+    Route::post("/admin/users/new-papel",[AccessController::class, "atribuirPapel"])->name("papeis.atribuir");
+
+    /**Users Routes */
+       Route::get('/admin/users', [UserController::class, "index"])->name('users');
+       Route::get('/admin/users/create', [UserController::class, "create"])->name('users-create');
+       Route::post('/admin/users/store', [UserController::class, "store"])->name('users-store');
+   
     
 }); 
 

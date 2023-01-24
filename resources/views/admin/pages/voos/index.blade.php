@@ -45,7 +45,7 @@
                             @endif
                         </td>
                         <td>
-                          <a href="{{route('voos.show',$voo->id_voo)}}" class="px-3 btn  btn-info btn-sm">Ver</a>
+                          <a href="{{route('voos.show',base64_encode($voo->id_voo))}}" class="px-3 btn  btn-info btn-sm">Ver</a>
                         </td>
                         
                     </tr>
