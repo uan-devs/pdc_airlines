@@ -45,5 +45,51 @@ img{
     box-shadow: 0 0 0 0.2rem #aa4c4c !important;
   }
 
+
+  .btn-show{
+    display: none;
+  }
+  
+  #btn-close{
+    cursor: pointer;
+  }
+  #btn-close:hover{
+    background-color: white;
+    color: black !important;
+}
+  .mobile-nav{
+    z-index: 100000 !important;
+    display: none;
+  }
+  .mobile-nav a{
+    font-size: large;
+  }
+  .mobile-nav a:hover{
+    background-color: #dc3545;
+    color: white;
+  }
+  @media (max-width: 576px) { 
+
+    .menu{
+        display: none !important;
+    }
+    .btn-show{
+        display: block;
+    }
+
+    #aLogo{
+        font-size:1.5em !important;
+    }
+
+   }
+
+
+  @media (min-width: 577px) { 
+
+    .mobile-nav{
+        display: none !important;
+    }
+
+   }
   
   

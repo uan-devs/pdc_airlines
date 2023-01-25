@@ -19,14 +19,14 @@ class AviaoController extends Controller
                         ->route("dashboard")
                             ->with("error","Ocorreu um erro inexperado. Tente novamente.");
         }
-        $colunas = DB::table("colunas")
+        $colunas = DB::table("filas")
                 ->where("id_aviao","=",$id)
                 ->select("id","identificador")
                 ->get();
 
         $lugares = DB::table("lugares")
                 ->where("id_aviao","=",$id)
-                ->select("lugares.id","lugares.numero","lugares.id_coluna","lugares.in_janela")
+                ->select("lugares.id","lugares.numero","lugares.id_fila","lugares.in_janela")
                 ->get();
 
         return view("admin.pages.avioes.show",[
@@ -74,7 +74,7 @@ public function store(Request $request) {
         try{
             DB::beginTransaction();
 
-            $id_coluna = DB::table("colunas")->insertGetId([
+            $id_fila = DB::table("filas")->insertGetId([
                 "identificador" => $request->identificador,
                 "id_aviao" => $aviao
             ]);
@@ -85,7 +85,7 @@ public function store(Request $request) {
                     "numero" => $identificador.$i,
                     "in_janela" => 0,
                     "id_aviao"  => $aviao,
-                    "id_coluna" => $id_coluna,
+                    "id_fila" => $id_fila,
                     "estado"    => 1
                 ]);
             }
