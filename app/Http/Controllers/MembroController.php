@@ -358,6 +358,6 @@ class MembroController extends Controller
     public function logout()
     {
         Session::remove('membro');
-        return redirect()->route('portal');
+        return redirect()->route('ini');
     }
 }
