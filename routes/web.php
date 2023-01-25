@@ -8,6 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +28,7 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, "index"]) ->name("ini");
 Route::post('/flySearch', [HomeController::class, "searchFlights"]);
+Route::get('/book/{id}', [BookingController::class, "index"])->name("book");
 Route::get('/portal', [HomeController::class, "index"])->name("portal");
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){

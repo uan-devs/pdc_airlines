@@ -100,7 +100,8 @@ class HomeController extends Controller
 
 
         return Inertia::render('FlySearchResult/index', [
-            "voos" => $voo_array
+            "voos" => $voo_array,
+            "tipo" => $tipo
         ]);
     }
 

@@ -11,15 +11,16 @@ import Modal from '@/components/Modal'
 import BookingForm from '@/components/BookingForm'
 import SelectPlace from '@/components/SelectPlace'
 import Footer from '@/components/Footer'
-import { usePage } from '@inertiajs/inertia-react'
+import { usePage, Link } from '@inertiajs/inertia-react'
 
 const FlySearchResult = () => {
     const [showDrawer, setShowDrawer] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [details, setDetails] = useState({})
     const [state, setState] = useState(0)
-    const { voos } = usePage().props
-    console.log(voos)
+    const { voos, tipo } = usePage().props
+    console.log(voos, tipo)
+    localStorage.setItem('tipoPDCAirlines2023', tipo)
 
     const closeModal = () => {
         setShowModal(false)
@@ -133,17 +134,14 @@ const FlySearchResult = () => {
                                                     </F.FlyRatesCardBody>
                                                     <F.FlyRatesCardBottom>
                                                         <span className='text-sm font-bold'>
-                                                            {rate.preco + rate.preco * 0.35} kz
+                                                            {rate.preco} kz
                                                         </span>
-                                                        <button
+                                                        <a
                                                             className='text-white bg-[#2564CF] p-2 border-none rounded-md'
-                                                            onClick={() => {
-                                                                setShowModal(true)
-                                                                console.log(flight, rate)
-                                                            }}
+                                                            href={`/book/${rate.id_voo_tarifa}`}
                                                         >
                                                             Selecionar
-                                                        </button>
+                                                        </a>
                                                     </F.FlyRatesCardBottom>
                                                 </F.FlyRatesCard>
                                             ))
