@@ -16,6 +16,7 @@ import { BsPlusCircleFill } from 'react-icons/bs'
 import styled from 'styled-components'
 import { useEffect } from 'react'
 import { usePage } from '@inertiajs/inertia-react'
+import Header from '@/components/Header'
 
 const ReactPhoneInput = PI.default ? PI.default : PI
 
@@ -147,6 +148,7 @@ const Booking = () => {
 
     return (
         <Wrap>
+            <Header />
             <div className='w-full min-h-screen bg-white text-black p-5'>
                 <div className='w-full mb-20'>
                     <h1>Voe connosco</h1>

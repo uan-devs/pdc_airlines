@@ -224,7 +224,7 @@ const Welcome = ({ title, description, background, cidades }) => {
                                     },
                                 }}
                             >
-                                <MenuItem value='ida'>
+                                <MenuItem value='so-ida'>
                                     Só Ida
                                 </MenuItem>
                                 <MenuItem value='volta'>
