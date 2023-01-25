@@ -205,15 +205,22 @@ class PortalController extends Controller
                 $email = "email".$i;
                 $telefone = "telefone".$i;
                 // dd($request->titulo);
-                $idCliente = DB::table("clientes")->insertGetId([
-                    "titulo" => $request->$titulo,
-                    "nome"   => $request->$nome,
-                    "sobrenome"=> $request->$sobrenome,
-                    "email" =>$request->$email,
-                    "telefone" =>$request->$telefone,
-                    "data" =>"2023-10-10",
-                    "estado"=> 1
-                ]);
+                if($i == 1)
+                {
+                    $idCliente = (Session::get("membro"))->id_cliente;
+
+                }else{
+                    $idCliente = DB::table("clientes")->insertGetId([
+                        "titulo" => $request->$titulo,
+                        "nome"   => $request->$nome,
+                        "sobrenome"=> $request->$sobrenome,
+                        "email" =>$request->$email,
+                        "telefone" =>$request->$telefone,
+                        "data" =>"2023-10-10",
+                        "estado"=> 1
+                    ]);
+                }
+                
 
                 $idBilhete = DB::table("bilhetes")->insertGetId([
                     "id_compra" => $idCompra,
