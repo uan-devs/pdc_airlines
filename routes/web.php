@@ -11,8 +11,10 @@ use App\Http\Controllers\AeroportoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\MembroController;
 use App\Http\Controllers\RegaliaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PortalController;
 use Inertia\Inertia;
 
 /*
@@ -31,12 +33,25 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('index');
-});
-Route::get('/', function () {
-    return Inertia::render('index');
 })->name('portal');
 
 
+
+// ROTAS PARA O MEMBRO PDC
+Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar");
+Route::post('/membro/login',[MembroController::class, "setLogin"])->name("membro.login");
+Route::get('/membro/registo',[MembroController::class, "registo"])->name("membro.registo");
+Route::get('/membro/dashboard',[MembroController::class, "dashboard"])->name("membro.dashboard");
+Route::get("/membro/{id}/perfil",[MembroController::class, "perfil"])->name("membro.perfil");
+Route::get("/membro/{id}/compras",[MembroController::class, "compras"])->name("membro.compras");
+Route::get('/membro/logout',[MembroController::class, "logout"])->name("membro.logout");
+
+Route::get('/membro/home',[MembroController::class, "index"])->name("portal.home");
+Route::post('/membro/search',[MembroController::class, "searchFLights"])->name("portal.voos");
+Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.compra");
+Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
+Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
+Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
 
 
 // ROTAS PARA A AREA ADMINISTRATIVA
