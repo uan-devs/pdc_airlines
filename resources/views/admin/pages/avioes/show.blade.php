@@ -117,7 +117,7 @@
                             {{$coluna->identificador}}
                     </h4>
                     @foreach($lugares as $lugar)
-                            @if($lugar->id_coluna == $coluna->id)
+                            @if($lugar->id_fila == $coluna->id)
                               <span class="mx-2 d-flex flex-column ">
                                 <span class="px-2 py-1 rounded-lg bg-primary {{($lugar->in_janela==1)?'janela':' '}} text-white text-center"
                                       data-id="{{$lugar->id}}" style="min-width:50px !important;cursor: pointer;">

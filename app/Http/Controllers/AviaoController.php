@@ -19,14 +19,14 @@ class AviaoController extends Controller
                         ->route("dashboard")
                             ->with("error","Ocorreu um erro inexperado. Tente novamente.");
         }
-        $colunas = DB::table("colunas")
+        $colunas = DB::table("filas")
                 ->where("id_aviao","=",$id)
                 ->select("id","identificador")
                 ->get();
 
         $lugares = DB::table("lugares")
                 ->where("id_aviao","=",$id)
-                ->select("lugares.id","lugares.numero","lugares.id_coluna","lugares.in_janela")
+                ->select("lugares.id","lugares.numero","lugares.id_fila","lugares.in_janela")
                 ->get();
 
         return view("admin.pages.avioes.show",[
@@ -36,7 +36,31 @@ class AviaoController extends Controller
             "definidos" => count($lugares)
         ]);
     }
+    public function listagem()
+    {
+        $aviao = Aviao :: all();
+       return view("admin.pages.avioes.listagem",[
+            "aviao" => $aviao,
+        ]);
+    }
+    
+    public function create() 
+    {
+        return view("admin.pages.avioes.create",[
+           
+        ]);
+    }
+    
+public function store(Request $request) {
+    $aviao = new Aviao;
+    
+    $aviao->modelo = $request->modelo;
+    $aviao->descricao = $request->descricao;
+    $aviao->capacidade = $request->capacidade;
 
+    $aviao->save();
+    return redirect("/admin/avioes/create");
+}
     public function addFila(Request $request)
     {
         if(!$request->identificador || !$request->qtd || !$request->id_aviao)
@@ -50,7 +74,7 @@ class AviaoController extends Controller
         try{
             DB::beginTransaction();
 
-            $id_coluna = DB::table("colunas")->insertGetId([
+            $id_fila = DB::table("filas")->insertGetId([
                 "identificador" => $request->identificador,
                 "id_aviao" => $aviao
             ]);
@@ -61,7 +85,7 @@ class AviaoController extends Controller
                     "numero" => $identificador.$i,
                     "in_janela" => 0,
                     "id_aviao"  => $aviao,
-                    "id_coluna" => $id_coluna,
+                    "id_fila" => $id_fila,
                     "estado"    => 1
                 ]);
             }

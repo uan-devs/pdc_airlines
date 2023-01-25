@@ -24,7 +24,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Estado</th>
+                    <th scope="col">Permissões</th>
                     <th scope="col">Acções</th>
                   </tr>
                 </thead>
@@ -32,17 +32,17 @@
                   @foreach($users as $user)
                   <tr>
                     <th scope="row">
-                      {{$user->id}} 
+                      #
+                      <!-- {{$user->id}}  -->
                       <!-- <i class="fa fa-user"></i> -->
                     </th>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>
-                      <a href="#">
+                      <a href="{{route('users.permissoes',base64_encode($user->id))}}">
                         Ver permissões
                       </a>
                     </td>
-                    <!-- <td>{{$user->estado}}</td> -->
                     <td>
                     <div class="flex items-center space-x-1 text-sm">
                             <a href="#"

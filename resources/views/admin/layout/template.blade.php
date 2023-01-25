@@ -38,6 +38,21 @@
             </a>
         </li>
         <!-- Nav Item - Dashboard -->
+        @can('ver-voos')
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse2"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Aeroporto</span>
+            </a>
+            <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('aeroporto.show')}}">Lista de Aeroportos</a>
+                    <a class="collapse-item" href="{{route('aeroporto.create')}}">Novo Aeroporto</a>
+                </div>
+            </div>
+
+        </li>
         
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"
@@ -48,40 +63,78 @@
             <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{route('voos')}}">Lista de Voos</a>
+                    @can('adicionar-voos')
                     <a class="collapse-item" href="{{route('voos.create')}}">Novo Voo</a>
+                    @endcan
+                    <a class="collapse-item" href="{{route('tarifas')}}">Tarifas</a>
+                    <a class="collapse-item" href="{{route('regalias')}}">Regalias</a>
                 </div>
             </div>
 
         </li>
-        <!-- Nav Item - Users -->
+        @endcan
+        @can('ver-avioes')
         <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <i class="fas fa-chart-bar"></i>
-                <span>Frotas</span>
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapsePlane"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
+                <span>Frota</span>
             </a>
+            <div id="collapsePlane" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('avioes.listagem')}}">Lista de Aviões</a>
+                    <a class="collapse-item" href="{{route('avioes.create')}}">Novo Avião</a>
+                </div>
+            </div>
+
         </li>
-        <!-- Nav Item - Users -->
+        @endcan
+        @can('ver-clientes')
+        <!-- Nav Item - Clientes -->
         <li class="nav-item active">
-            <a class="nav-link" href="#">
-                <i class="fas fa-flag"></i>
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse4"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-book"></i>
                 <span>Clientes</span>
             </a>
+            <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('clientes_normais')}}">Clientes Normais</a>
+                    <a class="collapse-item" href="{{route('clientes_membros')}}">Clientes Membros</a>
+                </div>
+            </div>
+
         </li>
+        @endcan
+        @can('ver-bilhetes')
         <!-- Nav Item - Users -->
         <li class="nav-item active">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{route('bilhetes')}}">
                 <i class="fas fa-clone"></i>
-                <span>Compras</span>
+                <span>Bilhetes</span>
             </a>
         </li>
+        @endcan
+
         <!-- Nav Item - Users -->
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
+          <!-- Nav Item - Users -->
+          <li class="nav-item active">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseDef"
+            aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-cog"></i>
                 <span>Definições</span>
             </a>
+            <div id="collapseDef" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                @can('ver-permissoes')
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{route('papeis')}}">Papeis e Permissoes</a>
+                </div>
+                @endcan
+            </div>
+
         </li>
         <!-- Nav Item - Users -->
+        @can('ver-utilizadores')
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -90,12 +143,16 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="">Lista</a>
-                    <a class="collapse-item" href="">Adicionar Utilizador</a>
+                    
+                    <a class="collapse-item" href="{{route('users')}}">Lista</a>
+                    @can('adicionar-utilizadores')
+                    <a class="collapse-item" href="{{route('users-create')}}">Adicionar Utilizador</a>
+                    @endcan
                 </div>
             </div>
 
         </li>
+        @endcan
         <!-- Nav Item - Users -->
         <li class="nav-item active">
             <a class="nav-link" href="">
@@ -148,7 +205,7 @@
                                 <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Definições
                             </a>
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{{route('portal')}}">
                                 <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Ir ao Portal
                             </a>

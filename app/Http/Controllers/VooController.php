@@ -38,6 +38,7 @@ class VooController extends Controller
 
     public function show($id)
     {
+        $id = base64_decode($id);
         $voo = DB::table("voos")
                 ->join("aeroportos AS ORIGEM","ORIGEM.id","=","voos.id_aeroporto_origem")
                 ->join("cidades as CIDADE_ORIGEM","CIDADE_ORIGEM.id","=","ORIGEM.id_cidade")
@@ -49,7 +50,7 @@ class VooController extends Controller
                 "ORIGEM.id as id_origem","ORIGEM.nome as aeroporto_origem","CIDADE_ORIGEM.nome as cidade_origem",
                 "DESTINO.id as id_destino","DESTINO.nome as aeroporto_destino","CIDADE_DESTINO.nome as cidade_destino")
                 ->first();
-
+// dd($voo);
         $tarifas = DB::table("voo_tarifas")
                     ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
                     ->join("classes","classes.id","=","tarifas.id_classe")
@@ -190,7 +191,7 @@ class VooController extends Controller
                 ->select("voos.id as id_voo","voos.data_partida","voos.hora","voos.estado",
                             "avioes.capacidade","avioes.id as id_aviao")
                  ->first();
-        $colunas = DB::table("colunas")
+        $colunas = DB::table("filas")
                 ->where("id_aviao","=",$voo->id_aviao)
                 ->select("id","identificador")
                 ->get();
@@ -201,7 +202,7 @@ class VooController extends Controller
         ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
         ->where("voo_tarifas.id_voo","=",$id)
         ->orderBy("voo_lugares.id")
-        ->select("voo_lugares.id as id_lugar","voo_lugares.estado","lugares.numero","lugares.id_coluna","lugares.in_janela",
+        ->select("voo_lugares.id as id_lugar","voo_lugares.estado","lugares.numero","lugares.id_fila","lugares.in_janela",
         "voo_tarifas.id_tarifa","tarifas.nome as tarifa")
         ->get()->toArray();
 
@@ -247,13 +248,14 @@ class VooController extends Controller
         $avioes = Aviao::all();
 
         return view("admin.pages.voos.create",[
-            "aeroportos" => $aeroportos,
-            "avioes"     => $avioes
+           "aeroportos" => $aeroportos,
+            "avioes" => $avioes
         ]);
     }
 
     public function store(Request $request)
     {
+        // dd($request->all());
         if(!$request->data || !$request->hora || !$request->duracao)
         {
             return redirect()->back()->with("error","Preencha todos os campos obrigatórios");
@@ -276,7 +278,7 @@ class VooController extends Controller
             $voo->estado = 0;
             $voo->save();
             $id = $voo->getAttribute("id");
-            return redirect()->route("voos.show",$id)->with("success","Voo Cadastrado com sucesso");
+            return redirect()->route("voos.show",base64_encode($id))->with("success","Voo Cadastrado com sucesso");
     
         }catch(Exception $e)
         {
