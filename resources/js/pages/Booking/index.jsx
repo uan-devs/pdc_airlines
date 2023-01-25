@@ -148,7 +148,6 @@ const Booking = () => {
 
     return (
         <Wrap>
-            <Header />
             <div className='w-full min-h-screen bg-white text-black p-5'>
                 <div className='w-full mb-20'>
                     <h1>Voe connosco</h1>
