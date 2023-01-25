@@ -8,6 +8,8 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ClasseController;
@@ -31,11 +33,10 @@ use Inertia\Inertia;
 
 // PORTAL ROUTES
 
-Route::get('/', function () {
-    return Inertia::render('index');
-})->name('portal');
-
-
+Route::get('/', [HomeController::class, "index"]) ->name("ini");
+Route::post('/flySearch', [HomeController::class, "searchFlights"]);
+Route::get('/book/{id}', [BookingController::class, "index"])->name("book");
+Route::get('/portal', [HomeController::class, "index"])->name("portal");
 
 // ROTAS PARA O MEMBRO PDC
 Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar");
@@ -52,7 +53,6 @@ Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.co
 Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
 Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
 Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
-
 
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import tw from 'tailwind-styled-components'
 
 export const FlySearchContainer = tw.div`
-    min-h-screen w-screen min-w-[350px] py-20 px-2
+    min-h-screen w-screen min-w-[350px] pt-20 pb-0 px-0
 `
 
 export const FlySearchHeader = styled.div`
@@ -70,14 +70,6 @@ export const FlySearchContent = styled.div`
     background-color: white;
     border-radius: 10px;
     transition: all ease .5s;
-
-    &:hover {
-        border-radius: 20px;
-    }
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-    }
 `
 
 export const FlySearchContentLogo = styled.div`
@@ -102,4 +94,59 @@ export const FlySearchContentBody = styled.div`
         align-items: flex-start;
         flex-direction: column;
     }
+`
+
+export const FlyRatesContent = styled.div`
+    width: 100%;
+    display: flex;
+    padding: 20px 0;
+    gap: 10px;
+    transition: all ease .5s;
+
+    @media (max-width: 999px) {
+        flex-direction: column;
+    }
+`
+
+export const FlyRatesCard = styled.div`
+    width: 300px;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    background: white;
+    border-radius: 10px;
+    transition: all ease .5s;
+
+    @media (max-width: 999px) {
+        width: 100%;
+    }
+`
+
+export const FlyRatesCardHeader = styled.div`
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+
+export const FlyRatesCardBody = styled.div`
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+`
+
+export const FlyRatesCardBottom = styled.div`
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+    margin: auto 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 `
