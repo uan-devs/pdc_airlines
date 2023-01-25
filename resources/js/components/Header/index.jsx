@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Tooltip from '@mui/material/Tooltip'
 import PropTypes from 'prop-types'
 import { AiOutlineLogin } from 'react-icons/ai'
-import { MdOutlinePersonOutline } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
-import { useUser } from '../../contexts/UserContext'
-import Modal from '../Modal'
 import Logo from '../../assets/images/logo.png'
-import MemberForm from '../MemberForm'
-import MemberLogin from '../MemberLogin'
 
 const NavbarItem = (props) => {
     const { title, url, classProp, button } = props
@@ -46,14 +41,12 @@ NavbarItem.propTypes = {
 }
 
 const Header = () => {
-    const { validUser } = useUser()
     const [color, setColor] = useState(true)
     const [showModal, setShowModal] = useState(false)
-    const { user } = useUser()
     const headerElements = [
         { title: 'Descubra', url: '/#destiny', button: false },
         { title: 'Subscreva', url: '/#news', button: false },
-        { title: 'Membro PDC', url: '/', button: true },
+        { title: 'Membro PDC', url: '/membro/login', button: false },
         { title: 'Check-in', url: '/', button: false },
     ]
 
@@ -61,7 +54,7 @@ const Header = () => {
         setShowModal(false)
     }
 
-    const modalSteps = [
+    /*const modalSteps = [
         {
             title: 'Faça parte da família',
             width: 'md',
@@ -72,7 +65,7 @@ const Header = () => {
             width: 'sm',
             children: <MemberLogin closeModal={closeModal} />,
         },
-    ]
+    ]*/
 
     useEffect(() => {
         const scrollListener = () => {
@@ -111,15 +104,6 @@ const Header = () => {
                             ml-auto rounded-full p-2 flex gap-3 items-center justify-center
                             duration-500
                         `}>
-                            {validUser && (
-                                <Tooltip placement='bottom' title='Tornar-se membro'>
-                                    <button className='border-none bg-transparent'
-                                        onClick={() => setShowModal(true)}
-                                    >
-                                        <MdOutlinePersonOutline size={20} className='text-white duration-500' />
-                                    </button>
-                                </Tooltip>
-                            )}
                             <a href='/login'>
                                 <AiOutlineLogin size={20} className='text-white duration-500' />
                             </a>
@@ -127,14 +111,6 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
-            <Modal
-                title={modalSteps[user.state].title}
-                open={showModal}
-                maxWidth={modalSteps[user.state].width}
-                handleClose={() => setShowModal(false)}
-            >
-                {modalSteps[user.state].children}
-            </Modal>
         </header>
     )
 }

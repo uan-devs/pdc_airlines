@@ -12,6 +12,7 @@ import BookingForm from '@/components/BookingForm'
 import SelectPlace from '@/components/SelectPlace'
 import Footer from '@/components/Footer'
 import { usePage, Link } from '@inertiajs/inertia-react'
+import Header from '@/components/Header'
 
 const FlySearchResult = () => {
     const [showDrawer, setShowDrawer] = useState(false)
@@ -25,17 +26,6 @@ const FlySearchResult = () => {
     const closeModal = () => {
         setShowModal(false)
     }
-
-    const modalSteps = [
-        {
-            title: 'Selecione o seu lugar',
-            children: <SelectPlace closeModal={closeModal} state={state} setState={setState} />,
-        },
-        {
-            title: 'Dados pessoais',
-            children: <BookingForm closeModal={closeModal} state={state} setState={setState} />,
-        },
-    ]
 
     const toggleDrawer = (open) => (event) => {
         if (
@@ -153,20 +143,6 @@ const FlySearchResult = () => {
                     )
                 })}
             </F.FlySearchBody>
-            <Drawer
-                anchor='right'
-                open={showDrawer}
-                onClose={toggleDrawer(true)}
-            >
-                <FlightDetails flight={details} />
-            </Drawer>
-            <Modal
-                open={showModal}
-                handleClose={() => setShowModal(false)}
-                title={modalSteps[state].title}
-            >
-                {modalSteps[state].children}
-            </Modal>
             <Footer />
         </F.FlySearchContainer>
     )
