@@ -30,7 +30,7 @@ class UserController extends Controller
         return view("admin.pages.usuarios.create");
     }
     
-    public function store(StoreUpdateUserRequest $request)
+    public function store(Request $request)
     {
         $user = new User();
         $user->name = $request->nome;
