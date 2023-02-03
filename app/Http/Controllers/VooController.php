@@ -207,6 +207,26 @@ class VooController extends Controller
         ->select("voo_lugares.id as id_lugar","voo_lugares.estado","lugares.numero","lugares.id_fila","lugares.in_janela",
         "voo_tarifas.id_tarifa","tarifas.nome as tarifa")
         ->get()->toArray();
+            
+
+                array_walk($lugares,function($item){
+                    if($item->estado == 1)
+                    {
+                        return  $item->cliente = $cliente = DB::table("voo_lugares")
+                                                    ->join("bilhete_lugares","bilhete_lugares.id_voo_lugar","=","voo_lugares.id")
+                                                    ->join("bilhetes","bilhetes.id","=","bilhete_lugares.id_bilhete")
+                                                    ->join("clientes","clientes.id","=","bilhetes.id_cliente")
+                                                    ->where("voo_lugares.id","=",$item->id_lugar)
+                                                    ->select("clientes.nome","clientes.sobrenome","clientes.email",
+                                                    "clientes.telefone","clientes.data")
+                                                    ->distinct()
+                                                    ->first();
+                    }else{
+                        return $item->cliente = null;
+                    }
+                   
+                });
+                // dd($lugares);
 
         $tarifas = DB::table("voo_tarifas")
             ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")

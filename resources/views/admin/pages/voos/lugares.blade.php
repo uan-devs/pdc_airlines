@@ -28,7 +28,11 @@
                             @if($lugar->id_fila == $coluna->id)
                               <span class="mx-1 d-flex flex-column ">
                                   <span class="px-3 py-2 rounded-lg {{($lugar->estado==0)?'free':'ocupado'}} text-white"
-                                      data-id="{{$lugar->id_lugar}}" style="cursor: pointer;">
+                                      data-id="{{$lugar->id_lugar}}" style="cursor: pointer;"
+                                      @if($lugar->estado == 1)
+                                        role="button" data-toggle="modal" data-target="#modalCliente{{$lugar->id_lugar}}" 
+                                      @endif
+                                  >
                                     {{$lugar->numero}}
                                   </span>
                                   <span class="text-dark text-center" 
@@ -36,7 +40,29 @@
                                       {{$lugar->tarifa}}
                                   </span>
                               </span>
-                            
+                                  <!-- Modal -->
+                                  @if($lugar->estado == 1)
+                                    <div class="modal fade" id="modalCliente{{$lugar->id_lugar}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title text-success font-weight-bolder " style="font-size: 1.5em;"id="exampleModalLabel" >Bilhete Comprado por</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body text-dark text-canter" style="font-size: 1.2em;">
+                                                <div class="">
+                                                    <h5>Nome: <span style="font-weight: bold;">{{$lugar->cliente->nome}} {{$lugar->cliente->sobrenome}}</span></h5>
+                                                    <h5>Email: <span style="font-weight: bold;">{{$lugar->cliente->email}}</span></h5>
+                                                    <h5>Telefone: <span style="font-weight: bold;">{{$lugar->cliente->telefone}}</span></h5>
+                                                    <h5>Data de Nascimento: <span style="font-weight: bold;">{{$lugar->cliente->data}}</span></h5>
+                                                </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  @endif
                             @endif
                             
                     @endforeach
