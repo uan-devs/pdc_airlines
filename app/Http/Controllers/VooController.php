@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NotificacaoCancelamento;
 use App\Models\Aviao;
 use App\Models\Voo;
 use Exception;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Mail;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -321,6 +323,53 @@ class VooController extends Controller
     {
         $aviao = Aviao::find($id_aviao);
         return ($aviao->estado == 1);
+    }
+
+    public function cancelar($id)
+    {
+        try{
+            $voo = (new Voo())->find($id);
+            $voo->estado = -1;
+            $voo->save();
+
+            $this->notificarVooCancelado($id);
+            return redirect()->back()->with("success", "Voo Cancelado!");
+            
+        }catch(Exception $e){
+            return redirect()->back()->with("error", "Ocorreu um erro inexperado. Tente novamente");
+        }
+
+    }
+
+    public function notificarVooCancelado($id)
+    {
+        try{
+            $clientes = DB::table("bilhetes")
+            ->join("clientes","clientes.id","=","bilhetes.id_cliente")
+            ->join("bilhete_lugares","bilhete_lugares.id_bilhete","=","bilhetes.id")
+            ->join("voo_lugares","voo_lugares.id","=","bilhete_lugares.id_voo_lugar")
+            ->join("lugares","lugares.id","=","voo_lugares.id_lugar")
+            ->join("voo_tarifas","voo_tarifas.id","=","voo_lugares.id_voo_tarifa")
+            ->join("voos","voos.id","=","voo_tarifas.id_voo")
+            ->join("aeroportos AS DESTINO","DESTINO.id","=","voos.id_aeroporto_destino")
+            ->join("cidades as CIDADE_DESTINO","CIDADE_DESTINO.id","=","DESTINO.id_cidade")
+            ->where("voos.id","=",$id)
+            ->select("bilhetes.id as id_bilhete","clientes.id as id_cliente",
+                    "clientes.nome as nome_cliente","clientes.sobrenome as sobrenome_cliente","clientes.email",
+                    "voos.id as id_voo","voos.data_partida","voos.hora","CIDADE_DESTINO.nome as cidade"
+                        )
+            ->get();
+
+            foreach($clientes as $cliente)
+            {
+                Mail::to($cliente)->send(new NotificacaoCancelamento($cliente));
+            }
+            return "Clientes Notificados";
+        }catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
+        
     }
 
 }

@@ -37,11 +37,13 @@
                         <td>{{$voo->hora}}</td>
                         <td>
                             @if($voo->estado == '1')
-                              <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Activo</span>
+                              <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Aberto</span>
                             @elseif($voo->estado == '0')
-                              <span class=" px-3 btn btn-sm" style="background-color: #fd7e14;color:white">Inactivo</span>
+                              <span class=" px-3 btn btn-sm" style="background-color: #fd7e14;color:white">Fechado</span>
+                            @elseif($voo->estado == '-1')
+                              <span class=" px-3 btn btn-sm" style="background-color: #dc3545;color:white">Cancelado</span>
                             @else:
-                              <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Cancelado</span>
+                              <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Não Definido</span>
                             @endif
                         </td>
                         <td>

@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
     Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
+    Route::get('/admin/voos/{id}/cancelar',[VooController::class, "cancelar"])->name('voos.cancel');
+    Route::get('/teste/{id}',[VooController::class, "notificarVooCancelado"]);
 
     // ROTAS DE AVIOES
 

@@ -139,7 +139,7 @@ class BilheteController extends Controller
                         ->first();
                 Mail::to($bilhete)->send(new Notificacao($bilhete));
 
-            return redirect()->back()->with("success","Cliente notificado");
+                return redirect()->back()->with("success","Cliente notificado");
             }catch(Exception $e)
             {
                 return redirect()->back()->with("error","Não foi possível notificar cliente");
