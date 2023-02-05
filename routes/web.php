@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
     Route::get('/admin/voos/{id}/cancelar',[VooController::class, "cancelar"])->name('voos.cancel');
-    Route::get('/teste/{id}',[VooController::class, "notificarVooCancelado"]);
+    Route::get('/teste/{id}',[VooController::class, "EnviarMensagem"]);
 
     // ROTAS DE AVIOES
 

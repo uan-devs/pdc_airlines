@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Throwable;
 use App\Mail\NotificacaoCancelamento;
 use App\Models\Aviao;
 use App\Models\Voo;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
+
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -31,7 +32,7 @@ class VooController extends Controller
                 ->select("voos.id as id_voo","voos.data_partida","voos.hora","voos.estado",
                 "ORIGEM.id as id_origem","ORIGEM.nome as aeroporto_origem","CIDADE_ORIGEM.nome as cidade_origem",
                 "DESTINO.id as id_destino","DESTINO.nome as aeroporto_destino","CIDADE_DESTINO.nome as cidade_destino")
-                ->get();
+                ->paginate(4);
         // dd($voos);
         return view("admin.pages.voos.index",[
             "voos" => $voos
@@ -382,9 +383,55 @@ class VooController extends Controller
 
             foreach($clientes as $cliente)
             {
-                Mail::to($cliente)->send(new NotificacaoCancelamento($cliente));
+                try{
+                    dispatch(function () use ($cliente){
+                        $message = Mail::to($cliente)->send(new NotificacaoCancelamento($cliente));
+                        DB::table("sent_emails")->insert([
+                           "nome" => $cliente->nome_cliente,
+                           "email"=> $cliente->email,
+                           "id_voo" => $cliente->id_voo,
+                           "message"=> "" 
+                        ]);
+                    });
+                    
+                }catch(Exception $e)
+                {
+                    continue;
+                }
             }
+            
             return "Clientes Notificados";
+        }catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
+        
+    }
+
+    public function EnviarMensagem($id)
+    {   $basic = new \Vonage\Client\Credentials\Basic("9767c8b8","6KkvEPc4fQ5pBSHC");
+        $client= new \Vonage\Client($basic);
+        try{
+            $cliente = DB::table("clientes")
+                        ->where("id","=",$id)
+                        ->select("clientes.nome as nome_cliente","clientes.sobrenome as sobrenome_cliente",
+                                    "clientes.email","clientes.telefone"
+                                    )
+                        ->first();
+            $response = $client->sms()->send(
+                new \Vonage\SMS\Message\SMS("244".$cliente->telefone,"PDC Airlines",
+                                            "Seja Bem vindo ao PDC Airlines, a sua compania de confianca")
+            );
+    
+            $message = $response->current();
+    
+            if($message->getStatus() == 0)
+            {
+                return "Mensagem Enviada";
+            }else{
+                return "Mensagem Não Enviada";
+            }
+            
         }catch(Exception $e)
         {
             return $e->getMessage();
