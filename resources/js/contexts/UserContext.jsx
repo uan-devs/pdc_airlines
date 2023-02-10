@@ -1,44 +1,20 @@
 import React, { createContext, useReducer, useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { loginMember, estado } from '@/services/api'
 
 const initialUser = {
-    id: 0,
     nome: '',
     sobrenome: '',
     telefone: 0,
     email: '',
-    state: 0,
+    estado: 0,
+    data: '',
+    idioma: '',
+    morada: '',
+    milhas: 0,
+    titulo: '',
+    pin: 0,
 }
-
-export const ValidUsers = [
-    {
-        id: 1,
-        nome: 'Eliude',
-        sobrenome: 'Vemba',
-        telefone: 933470417,
-        email: 'sweeteliude@gmail.com',
-        password: '1234',
-        state: 0,
-    },
-    {
-        id: 2,
-        nome: 'Patrício',
-        sobrenome: 'Carvalho',
-        telefone: 912345678,
-        email: 'pcuan@cc.com',
-        password: '1234',
-        state: 0,
-    },
-    {
-        id: 3,
-        nome: 'Hélio',
-        sobrenome: 'UAN',
-        telefone: 987654321,
-        email: 'vembaeliude@gmailcom',
-        password: '1234',
-        state: 0,
-    },
-]
 
 const UserContext = createContext(undefined)
 
@@ -66,8 +42,33 @@ export const UserProvider = (props) => {
 
     useEffect(() => {
         setValidUser(user === undefined || user === null || user.id === 0 || user.name === '' || user.email === '')
-        console.log(user)
     }, [user])
+
+    useEffect(() => {
+        const validateUser = async () => {
+            if(localUser === null) return;
+
+            else {
+                const data = {
+                    'email': value.user.email,
+                    'pin': value.user.pin
+                }
+
+                const response = await loginMember(data)
+
+                console.log(response)
+
+                if (response.data.estado === estado.ERRO) {
+                    dispatch({
+                        type: 'clearUser',
+                        payload: null,
+                    })
+                }
+            }
+        }
+
+        validateUser()
+    }, [])
 
     const value = { user, dispatch, validUser }
 

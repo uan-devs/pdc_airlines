@@ -13,7 +13,7 @@ const Home = () => {
 			<C.Container>
 				<Welcome
 					title='PDC - Airlines'
-                    description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit non'
+                    description='Descubra novos destinos e civilizações com a PDC - Airlines'
                     background={model7}
 				/>
 				<Destiny />

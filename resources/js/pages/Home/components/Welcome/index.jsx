@@ -15,6 +15,7 @@ import * as C from './style'
 import arrow from '../../../../assets/images/down-arrow.svg'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../../../components/Header'
+import { loginMember } from '@/services/api'
 
 // https://www.youtube.com/watch?v=79rgF2VK_4E
 
@@ -69,8 +70,8 @@ const Welcome = ({ title, description, background }) => {
         }
     }, [trip, origin, destiny, date])
 
-    const handleSearch = () => {
-        if (disableButton) return
+    const handleSearch = async () => {
+        /*if (disableButton) return
 
         localStorage.setItem('pdcAirlineUAN2022', JSON.stringify({
             origin: origin,
@@ -78,7 +79,12 @@ const Welcome = ({ title, description, background }) => {
             date: date,
             trip: trip,
         }))
-        navigate('/flightResults')
+        navigate('/flightResults')*/
+        const data = {
+            email: 'vembaeliude@gmail.com',
+            pin: 1234,
+        }
+        await loginMember(data)
     }
 
     return (
@@ -260,8 +266,7 @@ const Welcome = ({ title, description, background }) => {
                         </Select>
                     </FormControl>
                     <C.BoxButton
-                        onClick={() => handleSearch()} disabled={disableButton}
-                        className={`${disableButton ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                        onClick={() => handleSearch()}
                     >
                         Search
                     </C.BoxButton>

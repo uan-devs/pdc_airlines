@@ -4,8 +4,9 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
-import { useUser, ValidUsers } from '../../contexts/UserContext'
+import { useUser } from '../../contexts/UserContext'
 import { AlertError, AlertSuccess } from '../../utils/Alert'
+import { loginMember, estado } from '@/services/api'
 
 export const MemberLogin = (props) => {
     const { closeModal } = props
@@ -13,10 +14,15 @@ export const MemberLogin = (props) => {
     const [email, setEmail] = useState('')
     const [pin, setPin] = useState(0)
 
-    const handleLogin = () => {
-        const memberAuth = ValidUsers.find(u => u.email === email && pin == u.password)
+    const handleLogin = async () => {
+        const data = {
+            'email': email,
+            'pin': pin
+        }
 
-        if(memberAuth === undefined) {
+        const response = await loginMember(data)
+
+        if (response.data.estado === estado.ERRO) {
             closeModal()
             AlertError({
                 title: 'Erro',
@@ -26,7 +32,9 @@ export const MemberLogin = (props) => {
             return
         }
 
-        delete memberAuth['password']
+        const memberAuth = JSON.parse(response.data.data)
+        console.log(memberAuth)
+
         dispatch({
             type: 'setUser',
             payload: memberAuth,

@@ -7,7 +7,7 @@ const ProtectedRoute = () => {
     const { user } = useUser()
     const { id } = useParams()
 
-    return (user.id !== 0 && id === user.nome.toLowerCase().replaceAll(' ', '')) ? (
+    return (id === user.nome.toLowerCase().replaceAll(' ', '')) ? (
         <div className='flex sm:flex-row flex-col w-full h-screen bg-white'>
             <Sidebar />
 
