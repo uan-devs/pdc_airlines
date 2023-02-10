@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('codigo');
+            $table->string('imagem');
             $table->unsignedBigInteger('id_pais');
             $table->timestamps();
             $table->foreign('id_pais')->references('id')->on('paises');

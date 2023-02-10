@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lugares', function (Blueprint $table) {
+        Schema::create('filas', function (Blueprint $table) {
             $table->id();
-            $table->string('numero');
-            $table->integer('in_janela');
-            $table->unsignedBigInteger('id_aviao');
-            $table->integer('estado')->default(1);
+            $table->string("identificador");
+            $table->unsignedBigInteger("id_aviao");
             $table->timestamps();
             $table->foreign('id_aviao')->references('id')->on('avioes');
         });
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lugares');
+        Schema::dropIfExists('filas');
     }
 };

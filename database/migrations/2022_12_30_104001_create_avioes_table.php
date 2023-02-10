@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('avioes', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo');
+            $table->string('marca')->nullable();
             $table->string('modelo');
             $table->string('descricao');
             $table->integer('capacidade');
