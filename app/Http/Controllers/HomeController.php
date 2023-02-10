@@ -29,7 +29,7 @@ class HomeController extends Controller
         $tipo = $request->tipo ?? 'ida';
         $origem = $request->origem ?? '1';
         $destino = $request->destino ?? '3';
-        $data_partida = $request->data_partida ?? "2023-01-31";
+        $data_partida = $request->data ?? "2023-01-31";
         $data_regresso = $request->data_regresso ?? "2023-04-01";
         $passageiros = $request->qtd;
         $voos = [];

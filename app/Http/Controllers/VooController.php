@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use DateTime;
 
 use function PHPUnit\Framework\isEmpty;
+use Illuminate\Support\Facades\Crypt;
 
 class VooController extends Controller
 {
@@ -38,7 +39,8 @@ class VooController extends Controller
 
     public function show($id)
     {
-        $id = base64_decode($id);
+        $id = Crypt::decryptString($id);
+        
         $voo = DB::table("voos")
                 ->join("aeroportos AS ORIGEM","ORIGEM.id","=","voos.id_aeroporto_origem")
                 ->join("cidades as CIDADE_ORIGEM","CIDADE_ORIGEM.id","=","ORIGEM.id_cidade")
@@ -184,7 +186,8 @@ class VooController extends Controller
     }
 
     public function getLugares($id)
-    {
+    { 
+        $id= Crypt::decryptString($id);
         $voo = DB::table("voos")
                 ->join("avioes","voos.id_aviao","=","avioes.id")
                 ->where("voos.id","=",$id)
