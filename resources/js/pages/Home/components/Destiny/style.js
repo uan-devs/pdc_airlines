@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import tw from 'tailwind-styled-components'
 
 export const DestinyContainer = tw.div`
-    min-h-screen w-screen py-[80px] px-2
+    min-h-screen w-screen py-20 px-2
 `
 
 export const DestinyHeader = styled.div`

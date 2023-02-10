@@ -57,7 +57,7 @@ export const Box = styled.div`
     gap: 10px;
 
     @media (min-width: 728px) {
-        grid-template-areas:
+        grid-template-areas: 
         ". ."
         ". ."
         "button button";
@@ -71,7 +71,7 @@ export const Box = styled.div`
             border-bottom-right-radius: 10px;
         }
     }
-
+    
     @media (min-width: 1280px) {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         grid-template-rows: repeat(1, minmax(0, 1fr));

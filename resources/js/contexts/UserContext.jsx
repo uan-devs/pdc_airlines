@@ -3,10 +3,42 @@ import PropTypes from 'prop-types'
 
 const initialUser = {
     id: 0,
-    name: '',
+    nome: '',
+    sobrenome: '',
+    telefone: 0,
     email: '',
     state: 0,
 }
+
+export const ValidUsers = [
+    {
+        id: 1,
+        nome: 'Eliude',
+        sobrenome: 'Vemba',
+        telefone: 933470417,
+        email: 'sweeteliude@gmail.com',
+        password: '1234',
+        state: 0,
+    },
+    {
+        id: 2,
+        nome: 'Patrício',
+        sobrenome: 'Carvalho',
+        telefone: 912345678,
+        email: 'pcuan@cc.com',
+        password: '1234',
+        state: 0,
+    },
+    {
+        id: 3,
+        nome: 'Hélio',
+        sobrenome: 'UAN',
+        telefone: 987654321,
+        email: 'vembaeliude@gmailcom',
+        password: '1234',
+        state: 0,
+    },
+]
 
 const UserContext = createContext(undefined)
 
@@ -17,7 +49,7 @@ const userReducer = (user, action) => {
         case 'clearUser':
             return initialUser
         case 'setState':
-            return {...user, state: action.payload}
+            return { ...user, state: action.payload }
         default:
             return user
     }
@@ -34,6 +66,7 @@ export const UserProvider = (props) => {
 
     useEffect(() => {
         setValidUser(user === undefined || user === null || user.id === 0 || user.name === '' || user.email === '')
+        console.log(user)
     }, [user])
 
     const value = { user, dispatch, validUser }
