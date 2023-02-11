@@ -13,7 +13,7 @@ class ClienteController extends Controller
     public function getNormals()
     {
         $membros = DB::table("membros")->select("id_cliente");
-        $clientes = Cliente::whereNotIn("id",$membros)->select()->get();
+        $clientes = Cliente::whereNotIn("id",$membros)->select()->paginate(4);
 
         return view("admin.pages.clientes.index_normal",[
             "clientes" => $clientes
@@ -26,7 +26,7 @@ class ClienteController extends Controller
                     ->join("clientes","clientes.id","=","membros.id_cliente")
                     ->select("clientes.id","clientes.titulo","clientes.nome","clientes.sobrenome","clientes.email",
                     "clientes.telefone","clientes.data","membros.genero","membros.morada","membros.idioma","membros.milhas")
-                    ->get();
+                    ->paginate(4    );
         return view("admin.pages.clientes.index_membros",[
             "membros" => $membros
         ]);

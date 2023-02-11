@@ -47,7 +47,7 @@ class BilheteController extends Controller
                                     "bilhete_lugares.id as id_bilhete_ida","bilhete_volta.id as id_bilhete_volta",
                                     "voos.data_partida","voos.hora")
                         ->orderBy("compras.id")
-                        ->get();
+                        ->paginate(4);
                         // dd($bilhetes);
                         
             return view("admin.pages.bilhetes.index",[
@@ -86,7 +86,8 @@ class BilheteController extends Controller
             // ->where("bilhete_lugares.id","<>","bilhete_volta.id")
             // ->where("bilhete_lugares.tipo","<>",DB::raw("bilhete_volta.tipo"))
             ->select("compras.id as id_compra","bilhetes.id as id_bilhete","clientes.id as id_cliente",
-                        "clientes.nome as nome_cliente","clientes.sobrenome as sobrenome_cliente","voos.id as id_voo","bilhetes.tipo",
+                        "clientes.nome as nome_cliente","clientes.sobrenome as sobrenome_cliente",
+                        "voos.id as id_voo","voos.data_partida","voos.hora","bilhetes.tipo",
                         "ORIGEM.id as id_origem","ORIGEM.nome as aeroporto_origem","CIDADE_ORIGEM.nome as cidade_origem",
                         "DESTINO.id as id_destino","DESTINO.nome as aeroporto_destino",
                         "CIDADE_DESTINO.nome as cidade_destino","bilhetes.estado","lugares.numero as lugar",
@@ -96,7 +97,7 @@ class BilheteController extends Controller
                         "bilhete_volta.tipo as tipo_volta","bilhete_volta.estado as state_volta","lugar_volta.numero as lugar_volta",
                         "bilhete_lugares.id as id_bilhete_ida","bilhete_volta.id as id_bilhete_volta")
             ->orderBy("compras.id")
-            ->get();
+            ->paginate(4);
             // dd($bilhetes);
             
             return view("admin.pages.bilhetes.index",[
@@ -139,7 +140,7 @@ class BilheteController extends Controller
                         ->first();
                 Mail::to($bilhete)->send(new Notificacao($bilhete));
 
-            return redirect()->back()->with("success","Cliente notificado");
+                return redirect()->back()->with("success","Cliente notificado");
             }catch(Exception $e)
             {
                 return redirect()->back()->with("error","Não foi possível notificar cliente");
