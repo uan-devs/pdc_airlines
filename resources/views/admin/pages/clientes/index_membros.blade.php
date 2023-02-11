@@ -41,7 +41,7 @@
                         <td>{{$item->telefone}}</td>
                         <td>{{$item->milhas}}</td>
                         <td>
-                          <a href="#" class="px-3 btn  btn-info btn-sm">Ver</a>
+                          <!-- <a href="#" class="px-3 btn  btn-info btn-sm">Ver</a> -->
                         </td>
                         
                     </tr>

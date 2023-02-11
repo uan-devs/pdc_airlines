@@ -160,10 +160,10 @@
                         <td>{{$item->tarifa}}</td>
                         <td>{{$item->preco}}</td>
                         <td>{{$item->taxa_retorno}}%</td>
-                        <td>0 </td>
+                        <td>{{$item->lugares}} </td>
                         <td>
-                          <a href="{{route('voos.show',$voo->id_voo)}}" class=" btn  btn-info btn-sm">Editar</a>
-                          <a href="{{route('voos.show',$voo->id_voo)}}" class=" btn  btn-danger btn-sm">Remover</a>
+                          <a href="{{route('voos.edit-tarifa',Crypt::encryptString($item->id_tarifa))}}" class=" btn  btn-info btn-sm">Editar</a>
+                          <!-- <a href="{{route('voos.show',$voo->id_voo)}}" class=" btn  btn-danger btn-sm">Remover</a> -->
                         </td>
                         
                     </tr>

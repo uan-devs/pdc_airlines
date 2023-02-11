@@ -60,9 +60,21 @@ class VooController extends Controller
         $tarifas = DB::table("voo_tarifas")
                     ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
                     ->join("classes","classes.id","=","tarifas.id_classe")
+                    ->join("voo_lugares", "voo_lugares.id_voo_tarifa", "=", "voo_tarifas.id", "right")
                     ->where("voo_tarifas.id_voo","=",$id)
                     ->select("voo_tarifas.id as id_tarifa","tarifas.nome as tarifa","voo_tarifas.preco",
                     "voo_tarifas.taxa_retorno","classes.nome as classe")
+                    ->selectRaw("count(voo_lugares.id) as lugares,voo_lugares.estado")
+                    ->groupBy(
+                        "voo_tarifas.id",
+                        "tarifas.nome",
+                        "voo_tarifas.preco",
+                        "voo_tarifas.taxa_retorno",
+                        "classes.nome",
+                        "voo_lugares.estado"
+                    )
+                    ->having("voo_lugares.estado", "=", "0")
+                    ->distinct()
                     ->get();
         $ids = DB::table("voo_tarifas")
                     ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
@@ -607,6 +619,53 @@ class VooController extends Controller
             return $e->getMessage();
         }
         
+    }
+
+    public function editTarifa($id)
+    {
+        $id = Crypt::decryptString($id);
+        $tarifaVoo =  DB::table("voo_tarifas")
+        ->join("tarifas","tarifas.id","=","voo_tarifas.id_tarifa")
+        ->join("classes","classes.id","=","tarifas.id_classe")
+        ->join("voo_lugares", "voo_lugares.id_voo_tarifa", "=", "voo_tarifas.id", "right")
+        ->where("voo_tarifas.id","=",$id)
+        ->select("voo_tarifas.id as id_tarifa","tarifas.nome as tarifa","voo_tarifas.preco",
+        "voo_tarifas.taxa_retorno","classes.nome as classe")
+        
+        ->first();
+        
+        return view("admin.pages.voos.edit_tarifa",[
+            "tarifa" => $tarifaVoo
+        ]);
+    }
+
+    public function updateTarifaVoo(Request $request)
+    {
+        if(!$request->preco || !$request->taxa)
+        {
+            return redirect()->back()->with("error","Preencha os campos obriatórios");
+        }
+        try{
+
+            $tarifaVoo = DB::table("voo_tarifas")->where("id","=",$request->id_tarifa)->first();
+            if(!$tarifaVoo)
+            {
+                return redirect()->back()->with("error","Dados não encontrados");
+            }
+            DB::table("voo_tarifas")
+                ->where("id","=",$request->id_tarifa)
+                ->update(
+                    [
+                    "preco" => $request->preco,
+                    "taxa_retorno" => $request->taxa
+                    ]
+                    );
+
+            return redirect()->back()->with("success","Tarifa Actualizada");
+        }catch(Exception $e)
+        {
+            redirect()->back()->with("error","Ocorreu um erro");
+        }
     }
 
 }

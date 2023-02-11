@@ -39,7 +39,7 @@
                         <td>{{$item->telefone}}</td>
                         <td>{{$item->data}}</td>
                         <td>
-                          <a href="#" class="px-3 btn  btn-info btn-sm">Ver</a>
+                          <!-- <a href="#" class="px-3 btn  btn-info btn-sm">Ver</a> -->
                         </td>
                         
                     </tr>

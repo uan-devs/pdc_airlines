@@ -154,12 +154,12 @@
         </li>
         @endcan
         <!-- Nav Item - Users -->
-        <li class="nav-item active">
+        <!-- <li class="nav-item active">
             <a class="nav-link" href="">
                 <i class="fas fa-user"></i>
                 <span>Minha Conta</span>
             </a>
-        </li>
+        </li> -->
     </ul>
     
     <!-- End of Sidebar -->

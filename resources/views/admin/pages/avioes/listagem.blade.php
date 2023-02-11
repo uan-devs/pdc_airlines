@@ -22,8 +22,31 @@
                                     <th scope="col">Descrição</th>
                                     <th scope="col">Capacidade</th>
                                     <th scope="col">Estado</th>
+                                    <th scope="col">Acções</th>
                                 </tr>
                             </thead>
+                            <tbody class="bg-white">
+                            @foreach($aviao as $avioes)
+                                <tr>
+                                    <td>#</td>
+                                    <td>{{ $avioes->modelo }}</td>
+                                    <td>{{ $avioes->descricao }}</td>
+                                    <td>{{ $avioes->capacidade }}</td>
+                                    <td>
+                                        @if($avioes->estado == 1)
+                                            <span class="btn btn-sm btn-success">Em funcionamento</span>
+                                        @else
+                                            <span class="btn btn-sm btn-danger">Inactivo</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{route('avioes.show',Crypt::encryptString($avioes->id) )}}" class="btn btn-primary">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -31,31 +54,7 @@
 
         </div>
         
-    @foreach($aviao as $avioes)
-           
-        <div class="w-full mb-3 p-3 overflow-hidden bg-white rounded-lg shadow-xs ">
-                <div class="row font-weight-bold">
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">id: <span
-                                class="text-primary text-capitalize">{{ $avioes->id }}</span></h6>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Modelo: <span
-                                class="text-primary text-capitalize">{{ $avioes->modelo }}</span></h6>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Descrição: <span
-                                class="text-primary text-capitalize">{{ $avioes->descricao }}</span></h6>
-                    </div>
-                   <div class="col-4">
-                        <h6 class="font-weight-bolder">Capacidade: <span
-                                class="text-primary text-capitalize">{{ $avioes->capacidade }}</span></h6>
-                    </div>
-                </div>
-
-        </div>
-            
-    @endforeach
+   
     
 
     </main>

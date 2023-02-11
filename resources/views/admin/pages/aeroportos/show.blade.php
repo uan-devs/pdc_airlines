@@ -7,7 +7,7 @@
             <div class="">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
-                        Detalhes do aeroporto
+                        Lista de aeroportos
                     </h2>
 
                 </div>
@@ -23,6 +23,19 @@
                                     <th scope="col">Cidade</th>
                                 </tr>
                             </thead>
+                            <tbody class="bg-white">
+                            @foreach($aeroporto as $aeroportos)
+                                <tr>
+                                    <td>#</td>
+                                    <td>{{ $aeroportos->nome }}</td>
+                                    <td>@foreach($cidade as $city)
+                                @if($city->id == $aeroportos->id_cidade)
+                                {{ $city->nome }}
+                                @endif
+                                @endforeach</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -30,29 +43,7 @@
 
         </div>
         
-    @foreach($aeroporto as $aeroportos)
-           
-        <div class="w-full mb-3 p-3 overflow-hidden bg-white rounded-lg shadow-xs ">
-                <div class="row font-weight-bold">
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Nome: <span
-                                class="text-primary text-capitalize">{{ $aeroportos->nome }}</span></h6>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="font-weight-bolder">Cidade: <span
-                                class="text-primary text-capitalize">
-                                @foreach($cidade as $city)
-                                @if($city->id == $aeroportos->id_cidade)
-                                {{ $city->nome }}
-                                @endif
-                                @endforeach
-                            </span></h6>
-                    </div>
-                </div>
-
-        </div>
-            
-    @endforeach
+    
     
 
     </main>
