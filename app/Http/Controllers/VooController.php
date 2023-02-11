@@ -136,7 +136,7 @@ class VooController extends Controller
             $this->notificarVooAlterado($idVoo);
             //$this->notificarVooAlteradoSMS($idVoo);
 
-            return redirect()->route("voos.show",base64_encode($idVoo))->with("success","Voo alterado com sucesso. Os clientes serão notificados");
+            return redirect()->route("voos.show",Crypt::encryptString($idVoo))->with("success","Voo alterado com sucesso. Os clientes serão notificados");
         }catch(Exception $e)
         {
             return redirect()->back()->with("error","Não foi possível alterar o voo. Tente Novamente.");
