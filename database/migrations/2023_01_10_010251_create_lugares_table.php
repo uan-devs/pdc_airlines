@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('numero');
             $table->integer('in_janela');
             $table->unsignedBigInteger('id_aviao');
-            $table->unsignedBigInteger('id_coluna');
+            $table->unsignedBigInteger('id_fila');
             $table->integer('estado')->default(1);
             $table->timestamps();
             $table->foreign('id_aviao')->references('id')->on('avioes');
-            $table->foreign('id_coluna')->references('id')->on('colunas');
+            $table->foreign('id_fila')->references('id')->on('filas');
         });
     }
 

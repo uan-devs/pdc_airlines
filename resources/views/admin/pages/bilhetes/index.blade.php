@@ -67,6 +67,7 @@
                     <th scope="col">Nº do Voo</th>
                     <th scope="col">Origem</th>
                     <th scope="col">Destino</th>
+                    <th scope="col">Data</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acções</th>
                   </tr>
@@ -81,12 +82,16 @@
                         <td>{{$item->id_voo}}</td>
                         <td>{{$item->cidade_origem}}</td>
                         <td>{{$item->cidade_destino}}</td>
+                        <td>{{$item->data_partida}} {{$item->hora }}</td>
                         <td>{{$item->estado}}</td>
-                        <td>
-                            <a href="#" class="px-3 btn  btn-info btn-sm" role="button" 
+                        <td class="d-flex align-items-center">
+                            <a href="#" class="px-3 btn  btn-info btn-sm mr-3" role="button" 
                                 data-toggle="modal" 
                                 data-target="#modal{{$item->id_compra}}{{$item->id_bilhete}}{{$item->nome_cliente}}"
                                 >Detalhes
+                            </a>
+                            <a href="{{route('notificar',base64_encode($item->id_bilhete))}}" class="text-danger">
+                                <i class="fa fa-bell"></i>
                             </a>
                         </td>
                         
@@ -176,7 +181,12 @@
             </div>
             <div class="mt-2 p-2 w-full d-flex justify-content-center">
               <div class="">
-               
+              <div class="">
+                @if(($bilhetes->links()!== null))
+                  {{ $bilhetes->links() }}
+                @endif
+              
+              </div>
               </div>
             </div>
 

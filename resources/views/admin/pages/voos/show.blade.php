@@ -11,16 +11,38 @@
             </h2>
             <div>
                 @if($voo->estado != '0')
-                <a href="{{route('voos.lugares',$voo->id_voo)}}" class="btn btn-info">Lugares do Voo</a>
+                <a href="{{route('voos.lugares',Crypt::encryptString($voo->id_voo))}}" class="btn btn-info">Lugares do Voo</a>
                 @endif
                 @if($voo->estado == '0')
-                <a href="{{route('voos.activate',$voo->id_voo)}}" class="btn btn-success">Ativar Voo</a>
+                <a href="{{route('voos.activate',$voo->id_voo)}}" class="btn btn-success">Abrir Voo</a>
                 @elseif($voo->estado == '1')
-                <a href="{{route('voos.activate',$voo->id_voo)}}" class="btn btn-danger">Cancelar Voo</a>
+                <a href="#" role="button"data-toggle="modal" data-target="#modalCancelarVoo" class="btn btn-danger">Cancelar Voo</a>
                 @endif
                 
             </div>
         </div>
+                  <!-- Modal Cancelar Voo -->
+          <div class="modal fade" id="modalCancelarVoo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-danger font-weight-bolder " id="exampleModalLabel"style="font-size: 1.5em;" >Cancelar Voo</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-dark text-center" style="font-size: 1.2em;">
+                        <div>
+                          <h4>Deseja Cancelar o Voo <span style="font-weight: bolder;">{{$voo->id_voo}}</span> ?</h4>
+                        </div>
+                        <div class="d-flex justify-content-center mt-5">
+                          <a href="{{route('voos.cancel',$voo->id_voo)}}" class="btn btn-primary mr-2">Sim</a>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
+                        </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <div class="w-full mb-3 p-3 overflow-hidden bg-white rounded-lg shadow-xs">
             <div class="row font-weight-bold">
@@ -43,9 +65,9 @@
                 </div>
                 <div class="col-4">
                     @if($voo->estado=='1')
-                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-success py-1 px-2 rounded-lg">Activo</span></h6>
+                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-success py-1 px-2 rounded-lg">Aberto</span></h6>
                     @elseif($voo->estado == '0')
-                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-danger py-1 px-2 rounded-lg">Inactivo</span></h6>
+                    <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-warning py-1 px-2 rounded-lg">Fechado</span></h6>
                     @else()
                     <h6 class="font-weight-bold">Estado: <span class="text-capitalize text-white bg-danger py-1 px-2 rounded-lg">Cancelado</span></h6>
                     @endif
@@ -138,10 +160,10 @@
                         <td>{{$item->tarifa}}</td>
                         <td>{{$item->preco}}</td>
                         <td>{{$item->taxa_retorno}}%</td>
-                        <td>0 </td>
+                        <td>{{$item->lugares}} </td>
                         <td>
-                          <a href="{{route('voos.show',$voo->id_voo)}}" class=" btn  btn-info btn-sm">Editar</a>
-                          <a href="{{route('voos.show',$voo->id_voo)}}" class=" btn  btn-danger btn-sm">Remover</a>
+                          <a href="{{route('voos.edit-tarifa',Crypt::encryptString($item->id_tarifa))}}" class=" btn  btn-info btn-sm">Editar</a>
+                          <!-- <a href="{{route('voos.show',$voo->id_voo)}}" class=" btn  btn-danger btn-sm">Remover</a> -->
                         </td>
                         
                     </tr>

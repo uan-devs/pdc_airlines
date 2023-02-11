@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aviao;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class AviaoController extends Controller
@@ -13,20 +14,23 @@ class AviaoController extends Controller
 
     public function show($id)
     {
+        $id = Crypt::decryptString($id);
+        try{
+
         $aviao = Aviao::find($id);
         if(!$aviao){
             return redirect()
                         ->route("dashboard")
                             ->with("error","Ocorreu um erro inexperado. Tente novamente.");
         }
-        $colunas = DB::table("colunas")
+        $colunas = DB::table("filas")
                 ->where("id_aviao","=",$id)
                 ->select("id","identificador")
                 ->get();
 
         $lugares = DB::table("lugares")
                 ->where("id_aviao","=",$id)
-                ->select("lugares.id","lugares.numero","lugares.id_coluna","lugares.in_janela")
+                ->select("lugares.id","lugares.numero","lugares.id_fila","lugares.in_janela")
                 ->get();
 
         return view("admin.pages.avioes.show",[
@@ -35,6 +39,12 @@ class AviaoController extends Controller
             "colunas" => $colunas,
             "definidos" => count($lugares)
         ]);
+    } catch(Exception $e)
+    {
+        return redirect()
+                        ->route("dashboard")
+                            ->with("error","Ocorreu um erro inexperado. Tente novamente.");
+    }
     }
     public function listagem()
     {
@@ -74,7 +84,7 @@ public function store(Request $request) {
         try{
             DB::beginTransaction();
 
-            $id_coluna = DB::table("colunas")->insertGetId([
+            $id_fila = DB::table("filas")->insertGetId([
                 "identificador" => $request->identificador,
                 "id_aviao" => $aviao
             ]);
@@ -85,7 +95,7 @@ public function store(Request $request) {
                     "numero" => $identificador.$i,
                     "in_janela" => 0,
                     "id_aviao"  => $aviao,
-                    "id_coluna" => $id_coluna,
+                    "id_fila" => $id_fila,
                     "estado"    => 1
                 ]);
             }

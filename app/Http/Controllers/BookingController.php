@@ -40,8 +40,11 @@ class BookingController extends Controller
 
     public function guardarDados(Request $request)
     {
+        
         // $nome = "nome1";
         // dd($request->$nome);
+        try{
+            DB::beginTransaction();
         if (!$request->has(["qtd", "tipo"])) return redirect()->route("book");
         $idCompra = DB::table("compras")->insertGetId([
             "valor_total" => 1000,
@@ -50,6 +53,7 @@ class BookingController extends Controller
             "estado"      => 1,
             "data" => date("Y-m-d")
         ]);
+        
         for ($i = 1; $i <= $request->qtd; $i++) {
             $nome = "nome" . $i;
             $titulo = "titulo" . $i;
@@ -84,8 +88,16 @@ class BookingController extends Controller
                 ->where('id', $idPlace->id_lugar)
                 ->update(['estado' => 1]);
         }
+
+        DB::commit();
         return true;
+        }catch(Exception $e)
+        {
+            DB::rollBack();
+            return false;
+        }
     }
+        
     public function getRandomPlaces($id_voo_tarifa)
     {
         $lugar = DB::table("voo_lugares")
