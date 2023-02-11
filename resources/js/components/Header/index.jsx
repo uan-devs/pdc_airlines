@@ -118,7 +118,7 @@ const Header = ({ black }) => {
                                 )
                             }
                             <Tooltip placement='bottom' title='Administrador'>
-                                <a href='/sign'>
+                                <a href='/login'>
                                     <MdAdminPanelSettings size={20} className={iconClasse} />
                                 </a>
                             </Tooltip>

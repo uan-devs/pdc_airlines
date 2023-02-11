@@ -94,6 +94,44 @@ export const getFlightResults = async (data) => {
     }
 }
 
+export const getFlightPrice = async (data) => {
+    try {
+        var ret = null
+        await axios({
+            method: 'POST',
+            data: data,
+            url: `${API_URL}flightPrice`,
+        }).then(function (response) {
+            ret = response
+        }).catch(function (response) {
+            console.log(response)
+        })
+
+        return ret.data
+    } catch {
+        return null
+    }
+}
+
+export const bookFlight = async (data) => {
+    try {
+        var ret = null
+        await axios({
+            method: 'POST',
+            data: data,
+            url: `${API_URL}flightBook`,
+        }).then(function (response) {
+            ret = response
+        }).catch(function (response) {
+            console.log(response)
+        })
+
+        return ret.data
+    } catch {
+        return null
+    }
+}
+
 export const getMembers = async () => {
     const req = await fetch(`${API_URL}member`)
     const json = await req.json()

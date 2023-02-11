@@ -72,7 +72,7 @@ const Welcome = ({ title, description, background }) => {
             date: date,
             trip: trip,
         }))
-        navigate('/flightResults')
+        navigate('/flightResults', { state: { fromApp: true } })
     }
 
     return (

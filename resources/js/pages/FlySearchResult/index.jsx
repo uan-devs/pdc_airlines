@@ -7,9 +7,18 @@ import logo from '../../assets/images/logo.png'
 import Footer from '../../components/Footer'
 import { estado, getFlightResults } from '@/services/api'
 import Header from '@/components/Header'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const FlySearchResult = () => {
     const [voos, setVoos] = useState([])
+    const navigate = useNavigate()
+    const { state } = useLocation()
+
+    useEffect(() => {
+        if (!state?.fromApp) {
+            navigate('/')
+        }
+    }, [])
 
     useEffect(() => {
         const fetchFlights = async () => {
@@ -27,6 +36,8 @@ const FlySearchResult = () => {
                 const result = await getFlightResults(data)
 
                 if (result.estado === estado.SUCESSO) setVoos(result.data)
+            } else {
+                navigate('/')
             }
         }
 
@@ -40,15 +51,30 @@ const FlySearchResult = () => {
                 <h1 className='font-normal text-[#2564CF]'>Resultados</h1>
             </F.FlySearchHeader>
             <F.FlySearchBody>
-                        {
-                            voos.map((f, i) => (
-                                <Results
-                                    key={i}
-                                    flight={f}
-                                />
-                            ))
-                        }
-                    </F.FlySearchBody>
+                {
+                    voos.length !== 0 ? (
+                        voos.map((f, i) => (
+                            <Results
+                                key={i}
+                                flight={f}
+                            />
+                        ))
+                    ) : (
+                        <div className='w-full h-[60vh] flex sm:flex-row flex-col gap-3 justify-center items-center'>
+                            <p>Nada para mostrar</p>
+                            <button
+                                className='bg-[#2564CF] p-3 text-white rounded-lg hover:scale-105 duration-300'
+                                onClick={() => {
+                                    localStorage.removeItem('searchPdcAirlinesUAN2022')
+                                    navigate('/')
+                                }}
+                            >
+                                Início
+                            </button>
+                        </div>
+                    )
+                }
+            </F.FlySearchBody>
             <Footer />
         </F.FlySearchContainer>
     )
@@ -56,9 +82,15 @@ const FlySearchResult = () => {
 
 const Results = ({ flight }) => {
     const [showEconomicRates, setShowEconomicRates] = useState(false)
+    const navigate = useNavigate()
 
     const toggleEconomicRates = () => {
         setShowEconomicRates(!showEconomicRates)
+    }
+
+    const handleSelect = (flight, url) => {
+        localStorage.setItem('pdcAirlinesUAN2022', JSON.stringify(flight))
+        navigate(url, { state: { fromApp: true } })
     }
 
     return (
@@ -125,12 +157,15 @@ const Results = ({ flight }) => {
                                         <span className='text-sm font-bold'>
                                             {rate.preco} kz
                                         </span>
-                                        <a
-                                            className='text-white bg-[#2564CF] p-2 border-none rounded-md'
-                                            href={`/book/${rate.id_voo_tarifa}`}
+                                        <button
+                                            className='text-white bg-[#2564CF] p-2 border-none shadow-none rounded-md'
+                                            onClick={() => handleSelect(
+                                                flight,
+                                                `/bookFlight/${rate.id_voo_tarifa}`,
+                                            )}
                                         >
                                             Selecionar
-                                        </a>
+                                        </button>
                                     </F.FlyRatesCardBottom>
                                 </F.FlyRatesCard>
                             ))
