@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateUserRequest;
+use App\Models\Aviao;
+use App\Models\Cliente;
 use App\Models\User;
+use App\Models\Voo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +33,7 @@ class UserController extends Controller
         return view("admin.pages.usuarios.create");
     }
     
-    public function store(StoreUpdateUserRequest $request)
+    public function store(Request $request)
     {
         $user = new User();
         $user->name = $request->nome;
@@ -44,5 +47,20 @@ class UserController extends Controller
         {
             return redirect()->back()->with("error",$e->getMessage());
         }
+    }
+
+    public function homeDashboard()
+    {
+        $voos = Voo::all()->count();
+        $voosCancelados = Voo::all()->where("estado","=",-1)->count();
+        $avioes = Aviao::all()->count();
+        $clientes = Cliente::all()->count();
+        
+        return view("admin.pages.dashboard",[
+            "voos" => $voos,
+            "voos_cancelados" => $voosCancelados,
+            "avioes" => $avioes,
+            "clientes" => $clientes
+        ]);
     }
 }

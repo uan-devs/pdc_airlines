@@ -40,9 +40,9 @@
                         <td>{{$item->id}}</td>
                         <td>{{$item->nome}}</td>
                         <td>
-                          <a href="#" class="px-3 btn  btn-danger btn-sm">
+                          <!-- <a href="#" class="px-3 btn  btn-danger btn-sm">
                             <i class="fa fa-trash"></i>
-                          </a>
+                          </a> -->
                         </td>
                         
                     </tr>

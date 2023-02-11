@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aviao;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class AviaoController extends Controller
@@ -13,6 +14,9 @@ class AviaoController extends Controller
 
     public function show($id)
     {
+        $id = Crypt::decryptString($id);
+        try{
+
         $aviao = Aviao::find($id);
         if(!$aviao){
             return redirect()
@@ -35,6 +39,12 @@ class AviaoController extends Controller
             "colunas" => $colunas,
             "definidos" => count($lugares)
         ]);
+    } catch(Exception $e)
+    {
+        return redirect()
+                        ->route("dashboard")
+                            ->with("error","Ocorreu um erro inexperado. Tente novamente.");
+    }
     }
     public function listagem()
     {

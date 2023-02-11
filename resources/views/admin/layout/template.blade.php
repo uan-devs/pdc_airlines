@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="{{ asset('/css/custom_admin.css') }}">
     <script src="https://kit.fontawesome.com/6b4ddefc79.js" crossorigin="anonymous"></script>
     <base href="/public">
-    
+
 </head>
 <body>
-   
+
 
 <!-- Page Wrapper -->
 <div id="wrapper">
 
     <!-- Sidebar -->
     <ul class="navbar-nav  sidebar sidebar-dark accordion" style="background-color: #222;"  id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" 
+        <a class="sidebar-brand d-flex align-items-center justify-content-center"
         href="{{route('dashboard')}}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="far fa-paper-plane"></i>
@@ -53,7 +53,7 @@
             </div>
 
         </li>
-        
+
         <li class="nav-item active">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapse3"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -88,7 +88,7 @@
             </div>
 
         </li>
-        @endcan
+@endcan
         @can('ver-clientes')
         <!-- Nav Item - Clientes -->
         <li class="nav-item active">
@@ -143,7 +143,7 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    
+
                     <a class="collapse-item" href="{{route('users')}}">Lista</a>
                     @can('adicionar-utilizadores')
                     <a class="collapse-item" href="{{route('users-create')}}">Adicionar Utilizador</a>
@@ -154,32 +154,32 @@
         </li>
         @endcan
         <!-- Nav Item - Users -->
-        <li class="nav-item active">
+        <!-- <li class="nav-item active">
             <a class="nav-link" href="">
                 <i class="fas fa-user"></i>
                 <span>Minha Conta</span>
             </a>
-        </li>
+        </li> -->
     </ul>
-    
+
     <!-- End of Sidebar -->
 
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-        
+
         <!-- Main Content -->
         <div id="content">
 
-        
+
             <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                
+
                 <!-- Sidebar Toggle (Topbar) -->
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
-                
+
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
                      <!-- Nav Item - User Information -->
@@ -192,7 +192,7 @@
                                 src="img/undraw_profile.svg"> -->
                             @endif
                                 <i class="fas fa-user"></i>
-                            
+
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -205,10 +205,6 @@
                                 <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Definições
                             </a>
-                            <a class="dropdown-item" href="{{route('portal')}}">
-                                <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Ir ao Portal
-                            </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"
@@ -219,22 +215,22 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                            
+
                         </div>
                     </li>
                 </ul>
                 <!-- End of TopBar Navbar -->
-            
+
             </nav>
             <!-- End of TopBar -->
-        
+
 
              <!-- Begin Page Content -->
             <div class="container-fluid">
-                
+
                 <!-- O CONTEUDO DA PAGINA -->
-                
-                
+
+
                 <!-- Page Heading  - cabecalho
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -258,7 +254,7 @@
 </div>
 <!-- End of Page Wrapper -->
 
-    
+
 
 
 
@@ -281,7 +277,7 @@
     </div>
   </div>
 </div>
-                       
+
 @endif
 
 @if(session('success'))
@@ -301,7 +297,7 @@
     </div>
   </div>
 </div>
-                       
+
 @endif
 
 

@@ -13,10 +13,10 @@ const bookingReducer = (state, action) => {
     console.log(state, action)
 
     switch(action.type) {
-        case 'setCurrentStep':
-            return {...state, currentStep: action.payload}
-        case 'setName':
-            return {...state, name: action.payload}
+        case 'setData':
+            return {...state, ...action.payload}
+        case 'clear':
+            return null
         default:
             return state
     }
@@ -43,8 +43,10 @@ bookingReducer.propTypes = {
 // Provider
 export const BookingProvider = (props) => {
     const { children } = props
-    const [state, dispatch] = useReducer(bookingReducer, initialData)
+    const localUser = localStorage.getItem('pdcAirlinesUAN2022')
+    const [state, dispatch] = useReducer(bookingReducer, localUser ? JSON.parse(localUser) : initialData)
     const value = { state, dispatch }
+    console.log(value)
     return (
         <BookingContext.Provider value={value} >
             {children}

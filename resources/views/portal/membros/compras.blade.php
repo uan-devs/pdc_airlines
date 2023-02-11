@@ -23,10 +23,8 @@
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Nº da compra</th>
                     <th scope="col">Nº do Bilhete</th>
                     <th scope="col">Tipo</th>
-                    <th scope="col">Cliente</th>
                     <th scope="col">Nº do Voo</th>
                     <th scope="col">Origem</th>
                     <th scope="col">Destino</th>
@@ -38,10 +36,8 @@
                 <tbody>
                   @foreach($bilhetes as $item)
                     <tr style="color: black;">
-                        <td>{{$item->id_compra}}</td>
                         <td>{{$item->id_bilhete}}</td>
                         <td>{{$item->tipo}}</td>
-                        <td>{{$item->nome_cliente}} {{$item->sobrenome_cliente}}</td>
                         <td>{{$item->id_voo}}</td>
                         <td>{{$item->cidade_origem}}</td>
                         <td>{{$item->cidade_destino}}</td>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { InertiaLink, usePage } from "@inertiajs/inertia-react"
 
 import Welcome from './components/Welcome'
 import * as C from './style'
@@ -9,20 +8,17 @@ import Bottom from './components/Bottom'
 import Footer from '@/components/Footer'
 
 const Home = () => {
-    const { cidades } = usePage().props
-    console.log(cidades)
 	return (
 		<>
 			<C.Container>
 				<Welcome
 					title='PDC - Airlines'
-                    description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit non'
+                    description='Descubra novos destinos e civilizações com a PDC - Airlines'
                     background={model7}
-                    cidades={cidades}
 				/>
 				<Destiny />
 				<Bottom />
-                <Footer />
+				<Footer />
 			</C.Container>
 		</>
 	)

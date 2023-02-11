@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <base href="/public">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -21,7 +21,7 @@
     }
     </style>
 </head>
-<body  style="background-image: url('img/viagem.jpeg');background-position: center;background-size: cover;">
+<body  style="background-image: url('img/model-777.jpeg');background-position: center;background-size: cover;">
 <div class="w-100" style="background-color: rgba(0,0,0,0.7);height: inherit;">
 
 <div class="container">

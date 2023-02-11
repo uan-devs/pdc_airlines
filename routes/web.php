@@ -8,8 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ReactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ClasseController;
@@ -33,42 +32,51 @@ use Inertia\Inertia;
 
 // PORTAL ROUTES
 
-Route::get('/', [HomeController::class, "index"]) ->name("ini");
-Route::post('/flySearch', [HomeController::class, "searchFlights"]);
-Route::get('/book/{id}', [BookingController::class, "index"])->name("book");
-Route::get('/portal', [HomeController::class, "index"])->name("portal");
+Route::get('/app{reactRoutes}', function () {
+    return view('welcome'); // your start view
+})->where('reactRoutes', '^((?!api).)*$');
 
 // ROTAS PARA O MEMBRO PDC
-Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar");
-Route::post('/membro/login',[MembroController::class, "setLogin"])->name("membro.login");
-Route::get('/membro/registo',[MembroController::class, "registo"])->name("membro.registo");
-Route::get('/membro/dashboard',[MembroController::class, "dashboard"])->name("membro.dashboard");
-Route::get("/membro/{id}/perfil",[MembroController::class, "perfil"])->name("membro.perfil");
-Route::get("/membro/{id}/compras",[MembroController::class, "compras"])->name("membro.compras");
-Route::get('/membro/logout',[MembroController::class, "logout"])->name("membro.logout");
+Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar")->middleware(['require-membro-logout']);
+Route::post('/membro/login',[MembroController::class, "setLogin"])->name("membro.login")->middleware(['require-membro-logout']);
+Route::get('/membro/registo',[MembroController::class, "registo"])->name("membro.registo")->middleware(['require-membro-logout']);
+Route::middleware(['require-membro-login'])->group(function(){
 
-Route::get('/membro/home',[MembroController::class, "index"])->name("portal.home");
-Route::post('/membro/search',[MembroController::class, "searchFLights"])->name("portal.voos");
-Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.compra");
-Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
-Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
-Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
+    Route::get('/membro/dashboard',[MembroController::class, "dashboard"])->name("membro.dashboard");
+    Route::get("/membro/{id}/perfil",[MembroController::class, "perfil"])->name("membro.perfil");
+    Route::get("/membro/{id}/compras",[MembroController::class, "compras"])->name("membro.compras");
+    Route::get('/membro/logout',[MembroController::class, "logout"])->name("membro.logout");
 
-// ROTAS PARA A AREA ADMINISTRATIVA
+    Route::get('/membro/home',[MembroController::class, "index"])->name("portal.home");
+    Route::post('/membro/search',[MembroController::class, "searchFLights"])->name("portal.voos");
+    Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.compra");
+    Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
+    Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
+    Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
+
+});
+
+
+
+
 Route::middleware(['auth'])->group(function(){
 
-    Route::get('/admin/dashboard',function(){
-        return view("admin.pages.dashboard");
-    })->name("dashboard");
+    Route::get('/admin/dashboard',[UserController::class, "homeDashboard"])->name("dashboard");
 
     // ROTAS DE VOOS
     Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
     Route::get("/admin/voos/create",[VooController::class, "create"])->name("voos.create");
     Route::post("/admin/voos/store/",[VooController::class, "store"])->name("voos.store");
     Route::get('/admin/voos/{id}',[VooController::class, "show"])->name('voos.show');
+    Route::get('/admin/voos/{id}/edit',[VooController::class, "edit"])->name('voos.edit');
+    Route::post('/admin/voos/update',[VooController::class, "update"])->name('voos.update');
     Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
+    Route::get("/admin/voos/{id}/edit-tarifa",[VooController::class, "editTarifa"])->name("voos.edit-tarifa");
+    Route::post("/admin/voos/updatetarifas",[VooController::class, "updateTarifaVoo"])->name("voos.update_tarifa");
     Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
+    Route::get('/admin/voos/{id}/cancelar',[VooController::class, "cancelar"])->name('voos.cancel');
+    Route::get('/teste/{id}',[VooController::class, "EnviarMensagem"]);
 
     // ROTAS DE AVIOES
 
@@ -118,11 +126,9 @@ Route::middleware(['auth'])->group(function(){
        Route::get('/admin/users', [UserController::class, "index"])->name('users');
        Route::get('/admin/users/create', [UserController::class, "create"])->name('users-create');
        Route::post('/admin/users/store', [UserController::class, "store"])->name('users-store');
-   
-    
-}); 
+
+
+});
 
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
