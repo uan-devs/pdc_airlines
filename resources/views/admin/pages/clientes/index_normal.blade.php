@@ -49,7 +49,7 @@
             </div>
             <div class="mt-2 p-2 w-full d-flex justify-content-center">
               <div class="">
-               
+              {{ $clientes->links() }}
               </div>
             </div>
 

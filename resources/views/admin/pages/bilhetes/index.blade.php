@@ -181,7 +181,12 @@
             </div>
             <div class="mt-2 p-2 w-full d-flex justify-content-center">
               <div class="">
-               
+              <div class="">
+                @if(($bilhetes->links()!== null))
+                  {{ $bilhetes->links() }}
+                @endif
+              
+              </div>
               </div>
             </div>
 

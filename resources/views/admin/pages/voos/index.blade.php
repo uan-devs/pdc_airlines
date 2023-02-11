@@ -37,15 +37,22 @@
                         <td>{{$voo->hora}}</td>
                         <td>
                             @if($voo->estado == '1')
-                              <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Activo</span>
+                              <span class="px-3 btn btn-sm" style="background-color: #28a745;color:white">Aberto</span>
                             @elseif($voo->estado == '0')
-                              <span class=" px-3 btn btn-sm" style="background-color: #fd7e14;color:white">Inactivo</span>
+                              <span class=" px-3 btn btn-sm" style="background-color: #fd7e14;color:white">Fechado</span>
+                            @elseif($voo->estado == '-1')
+                              <span class=" px-3 btn btn-sm" style="background-color: #dc3545;color:white">Cancelado</span>
                             @else:
-                              <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Cancelado</span>
+                              <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Não Definido</span>
                             @endif
                         </td>
-                        <td>
+                        <td class="d-flex">
+                          
                           <a href="{{route('voos.show',Crypt::encryptString($voo->id_voo))}}" class="px-3 btn  btn-info btn-sm">Ver</a>
+                          <a href="{{route('voos.edit',base64_encode($voo->id_voo))}}" class="p-1 btn  btn-info btn-sm">
+                            <i class="fa fa-edit"></i>
+                          </a>
+
                         </td>
                         
                     </tr>
@@ -55,7 +62,7 @@
             </div>
             <div class="mt-2 p-2 w-full d-flex justify-content-center">
               <div class="">
-               
+              {{ $voos->links() }}
               </div>
             </div>
 

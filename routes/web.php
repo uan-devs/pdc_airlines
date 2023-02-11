@@ -39,20 +39,26 @@ Route::get('/book/{id}', [BookingController::class, "index"])->name("book");
 Route::get('/portal', [HomeController::class, "index"])->name("portal");
 
 // ROTAS PARA O MEMBRO PDC
-Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar");
-Route::post('/membro/login',[MembroController::class, "setLogin"])->name("membro.login");
-Route::get('/membro/registo',[MembroController::class, "registo"])->name("membro.registo");
-Route::get('/membro/dashboard',[MembroController::class, "dashboard"])->name("membro.dashboard");
-Route::get("/membro/{id}/perfil",[MembroController::class, "perfil"])->name("membro.perfil");
-Route::get("/membro/{id}/compras",[MembroController::class, "compras"])->name("membro.compras");
-Route::get('/membro/logout',[MembroController::class, "logout"])->name("membro.logout");
+Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar")->middleware(['require-membro-logout']);
+Route::post('/membro/login',[MembroController::class, "setLogin"])->name("membro.login")->middleware(['require-membro-logout']);
+Route::get('/membro/registo',[MembroController::class, "registo"])->name("membro.registo")->middleware(['require-membro-logout']);
+Route::middleware(['require-membro-login'])->group(function(){
 
-Route::get('/membro/home',[MembroController::class, "index"])->name("portal.home");
-Route::post('/membro/search',[MembroController::class, "searchFLights"])->name("portal.voos");
-Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.compra");
-Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
-Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
-Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
+    Route::get('/membro/dashboard',[MembroController::class, "dashboard"])->name("membro.dashboard");
+    Route::get("/membro/{id}/perfil",[MembroController::class, "perfil"])->name("membro.perfil");
+    Route::get("/membro/{id}/compras",[MembroController::class, "compras"])->name("membro.compras");
+    Route::get('/membro/logout',[MembroController::class, "logout"])->name("membro.logout");
+    
+    Route::get('/membro/home',[MembroController::class, "index"])->name("portal.home");
+    Route::post('/membro/search',[MembroController::class, "searchFLights"])->name("portal.voos");
+    Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.compra");
+    Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
+    Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
+    Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
+    
+});
+
+
 
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
@@ -66,9 +72,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get("/admin/voos/create",[VooController::class, "create"])->name("voos.create");
     Route::post("/admin/voos/store/",[VooController::class, "store"])->name("voos.store");
     Route::get('/admin/voos/{id}',[VooController::class, "show"])->name('voos.show');
+    Route::get('/admin/voos/{id}/edit',[VooController::class, "edit"])->name('voos.edit');
+    Route::post('/admin/voos/update',[VooController::class, "update"])->name('voos.update');
     Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
     Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
+    Route::get('/admin/voos/{id}/cancelar',[VooController::class, "cancelar"])->name('voos.cancel');
+    Route::get('/teste/{id}',[VooController::class, "EnviarMensagem"]);
 
     // ROTAS DE AVIOES
 
