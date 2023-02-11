@@ -93,7 +93,7 @@ class VooController extends Controller
 
     public function edit($id){
 
-        $idVoo = base64_decode($id);
+        $idVoo = Crypt::decryptString($id);
 
         $voo = Voo::find($idVoo);
         if(!$voo)
@@ -359,7 +359,7 @@ class VooController extends Controller
             $voo->estado = 0;
             $voo->save();
             $id = $voo->getAttribute("id");
-            return redirect()->route("voos.show",base64_encode($id))->with("success","Voo Cadastrado com sucesso");
+            return redirect()->route("voos.show",Crypt::encryptString($id))->with("success","Voo Cadastrado com sucesso");
     
         }catch(Exception $e)
         {
