@@ -63,9 +63,7 @@ Route::middleware(['require-membro-login'])->group(function(){
 // ROTAS PARA A AREA ADMINISTRATIVA
 Route::middleware(['auth'])->group(function(){
 
-    Route::get('/admin/dashboard',function(){
-        return view("admin.pages.dashboard");
-    })->name("dashboard");
+    Route::get('/admin/dashboard',[UserController::class, "homeDashboard"])->name("dashboard");
 
     // ROTAS DE VOOS
     Route::get('/admin/voos',[VooController::class, "index"])->name("voos");
@@ -75,6 +73,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/voos/{id}/edit',[VooController::class, "edit"])->name('voos.edit');
     Route::post('/admin/voos/update',[VooController::class, "update"])->name('voos.update');
     Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
+    Route::get("/admin/voos/{id}/edit-tarifa",[VooController::class, "editTarifa"])->name("voos.edit-tarifa");
+    Route::post("/admin/voos/updatetarifas",[VooController::class, "updateTarifaVoo"])->name("voos.update_tarifa");
     Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');
     Route::get('/admin/voos/{id}/cancelar',[VooController::class, "cancelar"])->name('voos.cancel');
