@@ -8,8 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\AeroportoController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ReactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ClasseController;
@@ -33,10 +32,9 @@ use Inertia\Inertia;
 
 // PORTAL ROUTES
 
-Route::get('/', [HomeController::class, "index"]) ->name("ini");
-Route::post('/flySearch', [HomeController::class, "searchFlights"]);
-Route::get('/book/{id}', [BookingController::class, "index"])->name("book");
-Route::get('/portal', [HomeController::class, "index"])->name("portal");
+Route::get('/app{reactRoutes}', function () {
+    return view('welcome'); // your start view
+})->where('reactRoutes', '^((?!api).)*$');
 
 // ROTAS PARA O MEMBRO PDC
 Route::get('/membro/login',[MembroController::class, "login"])->name("membro.entrar")->middleware(['require-membro-logout']);
@@ -48,19 +46,19 @@ Route::middleware(['require-membro-login'])->group(function(){
     Route::get("/membro/{id}/perfil",[MembroController::class, "perfil"])->name("membro.perfil");
     Route::get("/membro/{id}/compras",[MembroController::class, "compras"])->name("membro.compras");
     Route::get('/membro/logout',[MembroController::class, "logout"])->name("membro.logout");
-    
+
     Route::get('/membro/home',[MembroController::class, "index"])->name("portal.home");
     Route::post('/membro/search',[MembroController::class, "searchFLights"])->name("portal.voos");
     Route::get("/membro/compra",[MembroController::class,"compra"])->name("portal.compra");
     Route::get("/membro/passageiros",[MembroController::class,"setPassageiros"])->name("portal.passageiros");
     Route::post("/membro/compra/efectuar",[MembroController::class,"efectuarCompra"])->name("portal.efectuar");
     Route::get("/membro/compras/result",[MembroController::class,"getResult"])->name("compra.result");
-    
+
 });
 
 
 
-// ROTAS PARA A AREA ADMINISTRATIVA
+
 Route::middleware(['auth'])->group(function(){
 
     Route::get('/admin/dashboard',[UserController::class, "homeDashboard"])->name("dashboard");
@@ -128,11 +126,9 @@ Route::middleware(['auth'])->group(function(){
        Route::get('/admin/users', [UserController::class, "index"])->name('users');
        Route::get('/admin/users/create', [UserController::class, "create"])->name('users-create');
        Route::post('/admin/users/store', [UserController::class, "store"])->name('users-store');
-   
-    
-}); 
+
+
+});
 
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -14,42 +14,65 @@ import 'aos/dist/aos.css'
 import * as C from './style'
 import arrow from '../../../../assets/images/down-arrow.svg'
 import { useNavigate } from 'react-router-dom'
-import Header from '@/components/Header'
-
-import { useForm } from "@inertiajs/inertia-react"
+import Header from '../../../../components/Header'
+import { getCountries } from '@/services/api'
+import { formatDate } from '@/helpers/date'
 
 // https://www.youtube.com/watch?v=79rgF2VK_4E
 
-const Welcome = ({ title, description, background, cidades }) => {
+const Welcome = ({ title, description, background }) => {
+    const [trip, setTrip] = useState('')
+    const [origin, setOrigin] = useState()
+    const [destinyError, setDestinyError] = useState(false)
+    const [destiny, setDestiny] = useState()
+    const [origins, setOrigins] = useState([])
+    const [destinies, setDestinies] = useState([])
+    const [date, setDate] = useState('')
     const [disableButton, setDisableButton] = useState(true)
     const navigate = useNavigate()
-
-    const { data, setData, post, processing, errors } = useForm({
-        origem: '',
-        destino: '',
-        tipo: '',
-        data: '',
-    })
 
     useEffect(() => {
         Aos.init({ duration: 1500 })
     }, [])
 
     useEffect(() => {
-        if (data.tipo !== undefined && data.tipo !== '' && data.origem !== undefined && data.origem !== '' && data.destino !== undefined && data.destino !== '' && data.data !== undefined && data.data !== '') {
-            setDisableButton(false)
-        }
-    }, [data])
+        const handleSelect = () => {
+            if(origin === undefined || origin === null || destiny === undefined || destiny === null) return
 
-    function handleSubmit(e) {
-        setData("data", `${data.data.$y}-${data.data.$M + 1}-${data.data.$D}`)
-        e.preventDefault()
-        post('/flySearch', {
-            preserveScroll: true,
-            onSuccess: () => {
-                console.log(data)
+            if(origin.id === destiny.id) setDestinyError(true)
+            else setDestinyError(false)
+        }
+
+        handleSelect()
+    }, [origin, destiny])
+
+    useEffect(() => {
+        const fetchCountries = async () => {
+            const countries = await getCountries()
+
+            if(countries) {
+                setDestinies(countries)
+                setOrigins(countries)
             }
-        }, data)
+        }
+
+        fetchCountries()
+    }, [])
+
+    useEffect(() => {
+        setDisableButton(destinyError || trip === undefined || trip === '' || origin === undefined || origin === null || destiny === undefined || destiny === null || date === undefined || date === '')
+    }, [trip, origin, destiny, date])
+
+    const handleSearch = () => {
+        if (disableButton) return
+
+        localStorage.setItem('searchPdcAirlinesUAN2022', JSON.stringify({
+            origin: origin,
+            destiny: destiny,
+            date: date,
+            trip: trip,
+        }))
+        navigate('/flightResults', { state: { fromApp: true } })
     }
 
     return (
@@ -62,14 +85,112 @@ const Welcome = ({ title, description, background, cidades }) => {
                     <p>{description}</p>
                 </C.ItemText>
 
-                <form method='POST' onSubmit={handleSubmit} className='w-full'>
-                    <C.Box>
-                        <FormControl
-                            sx={{
-                                minWidth: 250,
-                                '& label.Mui-focused': {
-                                    // color: 'white',
+                <C.Box>
+                    <FormControl
+                        sx={{
+                            minWidth: 250,
+                            '& label.Mui-focused': {
+                                // color: 'white',
+                            },
+                            '& .MuiInput-underline:after': {
+                                borderBottomColor: 'yellow',
+                            },
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'white',
+                                    borderRadius: 0,
                                 },
+                                '&:hover fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    // borderColor: 'yellow',
+                                },
+                            },
+                        }}
+                    >
+                        <InputLabel id='demo-simple-select-label'>Origem</InputLabel>
+                        <Select
+                            labelId='demo-simple-select-label'
+                            id='demo-simple-select'
+                            value={origin}
+                            label='Origem'
+                            onChange={(e) => setOrigin(e.target.value)}
+                            sx={{
+                                transitionDuration: '500ms',
+                                ':hover': {
+                                    boxShadow: 'black 10px 10px 50px 0px',
+                                },
+                            }}
+                        >
+                            {
+                                origins.map((o, index) => (
+                                    <MenuItem value={o} key={index}>
+                                        {o.nome}
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
+                    </FormControl>
+                    <FormControl
+                        sx={{
+                            minWidth: 250,
+                            '& label.Mui-focused': {
+                                // color: 'white',
+                            },
+                            '& .MuiInput-underline:after': {
+                                borderBottomColor: 'yellow',
+                            },
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'white',
+                                    borderRadius: 0,
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    // borderColor: 'yellow',
+                                },
+                            },
+                        }}
+                    >
+                        <InputLabel id='demo-simple-select-label'>Destino</InputLabel>
+                        <Select
+                            labelId='demo-simple-select-label'
+                            id='demo-simple-select'
+                            value={destiny}
+                            label='Destino'
+                            onChange={(e) => setDestiny(e.target.value)}
+                            error={destinyError}
+                            sx={{
+                                transitionDuration: '500ms',
+                                ':hover': {
+                                    boxShadow: 'black 10px 10px 50px 0px',
+                                },
+                            }}
+                        >
+                            {
+                                destinies.map((d, index) => (
+                                    <MenuItem value={d} key={index}>
+                                        {d.nome}
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
+                    </FormControl>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            label='Data'
+                            value={date}
+                            inputFormat='YYYY/MM/DD'
+                            minDate={formatDate(new Date())}
+                            onChange={(newValue) => {
+                                if(newValue === null) setDate('')
+                                else setDate(`${newValue.$y}-${newValue.$M > 9 ? '' : '0'}${newValue.$M + 1}-${newValue.$D > 9 ? '' : '0'}${newValue.$D}`)
+                            }}
+                            renderInput={(params) => <TextField {...params} sx={{
+                                minWidth: 250,
                                 '& .MuiInput-underline:after': {
                                     borderBottomColor: 'yellow',
                                 },
@@ -81,165 +202,62 @@ const Welcome = ({ title, description, background, cidades }) => {
                                     '&:hover fieldset': {
                                         borderColor: 'white',
                                     },
-                                    '&.Mui-focused fieldset': {
-                                        // borderColor: 'yellow',
-                                    },
                                 },
-                            }}
-                        >
-                            <InputLabel id='demo-simple-select-label'>Origem</InputLabel>
-                            <Select
-                                labelId='demo-simple-select-label'
-                                id='demo-simple-select'
-                                name='origem'
-                                value={data.origem}
-                                label='Origem'
-                                onChange={(e) => setData('origem', e.target.value)}
-                                sx={{
-                                    transitionDuration: '500ms',
-                                    ':hover': {
-                                        boxShadow: 'black 10px 10px 50px 0px',
-                                    },
-                                }}
-                            >
-                                {
-                                    cidades.map((c, index) => (
-                                        <MenuItem value={c.id} key={index}>
-                                            {c.cidade}
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
-                        <FormControl
+                            }} />}
+                        />
+                    </LocalizationProvider>
+                    <FormControl
+                        sx={{
+                            minWidth: 250,
+                            '& label.Mui-focused': {
+                                // color: 'white',
+                            },
+                            '& .MuiInput-underline:after': {
+                                borderBottomColor: 'yellow',
+                            },
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'white',
+                                    borderRadius: 0,
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    // borderColor: 'yellow',
+                                },
+                            },
+                        }}
+                    >
+                        <InputLabel id='demo-simple-select-label'>Viagem</InputLabel>
+                        <Select
+                            labelId='demo-simple-select-label'
+                            id='demo-simple-select'
+                            value={trip}
+                            label='Viagem'
+                            onChange={(e) => setTrip(e.target.value)}
                             sx={{
-                                minWidth: 250,
-                                '& label.Mui-focused': {
-                                    // color: 'white',
-                                },
-                                '& .MuiInput-underline:after': {
-                                    borderBottomColor: 'yellow',
-                                },
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: 'white',
-                                        borderRadius: 0,
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'white',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        // borderColor: 'yellow',
-                                    },
+                                transitionDuration: '500ms',
+                                ':hover': {
+                                    boxShadow: 'black 10px 10px 50px 0px',
                                 },
                             }}
                         >
-                            <InputLabel id='demo-simple-select-label'>Destino</InputLabel>
-                            <Select
-                                labelId='demo-simple-select-label'
-                                id='demo-simple-select'
-                                name='destino'
-                                value={data.destino}
-                                label='Destino'
-                                onChange={(e) => setData('destino', e.target.value)}
-                                sx={{
-                                    transitionDuration: '500ms',
-                                    ':hover': {
-                                        boxShadow: 'black 10px 10px 50px 0px',
-                                    },
-                                }}
-                            >
-                                {
-                                    cidades.reverse().map((c, index) => (
-                                        <MenuItem value={c.id} key={index}>
-                                            {c.cidade}
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label='Data'
-                                value={data.data}
-                                onChange={(e) => setData('data', e)}
-                                renderInput={(params) => <TextField {...params} sx={{
-                                    minWidth: 250,
-                                    '& label.Mui-focused': {
-                                        // color: 'white',
-                                    },
-                                    '& .MuiInput-underline:after': {
-                                        borderBottomColor: 'yellow',
-                                    },
-                                    '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                            borderColor: 'white',
-                                            borderRadius: 0,
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: 'white',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            // borderColor: 'yellow',
-                                        },
-                                    },
-                                }} />}
-                            />
-                        </LocalizationProvider>
-                        <FormControl
-                            sx={{
-                                minWidth: 250,
-                                '& label.Mui-focused': {
-                                    // color: 'white',
-                                },
-                                '& .MuiInput-underline:after': {
-                                    borderBottomColor: 'yellow',
-                                },
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: 'white',
-                                        borderRadius: 0,
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'white',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        // borderColor: 'yellow',
-                                    },
-                                },
-                            }}
-                        >
-                            <InputLabel id='demo-simple-select-label'>Viagem</InputLabel>
-                            <Select
-                                labelId='demo-simple-select-label'
-                                id='demo-simple-select'
-                                value={data.tipo}
-                                label='Viagem'
-                                name='tipo'
-                                onChange={(e) => setData('tipo', e.target.value)}
-                                sx={{
-                                    transitionDuration: '500ms',
-                                    ':hover': {
-                                        boxShadow: 'black 10px 10px 50px 0px',
-                                    },
-                                }}
-                            >
-                                <MenuItem value='so-ida'>
-                                    Só Ida
-                                </MenuItem>
-                                <MenuItem value='volta'>
-                                    Ida e Volta
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                        <C.BoxButton
-                            type="submit"
-                            name="Submit"
-                        >
-                            Search
-                        </C.BoxButton>
-                    </C.Box>
-                </form>
+                            <MenuItem value='1'>
+                                Só Ida
+                            </MenuItem>
+                            <MenuItem value='2'>
+                                Ida e Volta
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                    <C.BoxButton
+                        onClick={() => handleSearch()} disabled={disableButton}
+                        className={`${disableButton ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    >
+                        Search
+                    </C.BoxButton>
+                </C.Box>
 
                 <C.DownArrow src={arrow} />
             </div>

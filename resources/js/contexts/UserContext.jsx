@@ -1,11 +1,19 @@
 import React, { createContext, useReducer, useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { loginMember, estado } from '@/services/api'
 
 const initialUser = {
-    id: 0,
-    name: '',
+    nome: '',
+    sobrenome: '',
+    telefone: 0,
     email: '',
-    state: 0,
+    estado: 0,
+    data: '',
+    idioma: '',
+    morada: '',
+    milhas: 0,
+    titulo: '',
+    pin: 0,
 }
 
 const UserContext = createContext(undefined)
@@ -17,7 +25,7 @@ const userReducer = (user, action) => {
         case 'clearUser':
             return initialUser
         case 'setState':
-            return {...user, state: action.payload}
+            return { ...user, state: action.payload }
         default:
             return user
     }
@@ -35,6 +43,42 @@ export const UserProvider = (props) => {
     useEffect(() => {
         setValidUser(user === undefined || user === null || user.id === 0 || user.name === '' || user.email === '')
     }, [user])
+
+    useEffect(() => {
+        const validateUser = async () => {
+            if (localUser === null) return
+
+            else {
+                const data = {
+                    'email': value.user.email,
+                    'pin': value.user.pin,
+                }
+
+                const response = await loginMember(data)
+
+                console.log(response)
+
+                if (response.data.estado === estado.ERRO) {
+                    dispatch({
+                        type: 'clearUser',
+                        payload: null,
+                    })
+                    localStorage.removeItem('userPDCAirlines2023')
+                } else {
+                    const memberAuth = JSON.parse(response.data.data)
+
+                    dispatch({
+                        type: 'setUser',
+                        payload: memberAuth,
+                    })
+
+                    localStorage.setItem('userPDCAirlines2023', JSON.stringify(memberAuth))
+                }
+            }
+        }
+
+        validateUser()
+    }, [])
 
     const value = { user, dispatch, validUser }
 
