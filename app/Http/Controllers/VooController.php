@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Throwable;
 use App\Mail\NotificacaoCancelamento;
+use App\Mail\NotificacaoMudanca;
 use App\Models\Aviao;
 use App\Models\Voo;
 use Exception;
@@ -87,6 +88,60 @@ class VooController extends Controller
         
     }
 
+
+    public function edit($id){
+
+        $idVoo = base64_decode($id);
+
+        $voo = Voo::find($idVoo);
+        if(!$voo)
+        {
+            return redirect()->back()->with("error","Não foi possível carregar o voo."); 
+        }
+        $aeroportos = DB::table("aeroportos")
+                        ->join("cidades","cidades.id","=","aeroportos.id_cidade")
+                        ->select("aeroportos.id as id","aeroportos.nome","cidades.nome as cidade")
+                        ->get();
+
+        $avioes = Aviao::all();
+
+        return view("admin.pages.voos.edit",[
+            "voo" => $voo,
+            "aeroportos" => $aeroportos,
+            "avioes" => $avioes
+        ]);
+    }
+    public function update(Request $request)
+    {
+        if(!$request->idVoo)
+        {
+            return redirect()->back()->with("error","Não foi possível carregar o voo."); 
+        }
+        $idVoo = base64_decode($request->idVoo);
+
+        try{
+            $voo = Voo::find($idVoo);
+            if(!$voo)
+            {
+                return redirect()->back()->with("error","Não foi possível carregar o voo."); 
+            }
+            $voo->data_partida = $request->nova_data;
+            $voo->hora = $request->nova_hora;
+            $voo->id_aviao = $request->aviao;
+            $voo->duracao_estimada = $request->nova_duracao;
+
+            $voo->save();
+            $this->notificarVooAlterado($idVoo);
+            //$this->notificarVooAlteradoSMS($idVoo);
+
+            return redirect()->route("voos.show",base64_encode($idVoo))->with("success","Voo alterado com sucesso. Os clientes serão notificados");
+        }catch(Exception $e)
+        {
+            return redirect()->back()->with("error","Não foi possível alterar o voo. Tente Novamente.");
+        }
+
+    }
+    
     public function addTarifa(Request $request)
     {
         if( !isset($request->tarifa) || !isset($request->preco) || !isset($request->taxa))
@@ -408,8 +463,120 @@ class VooController extends Controller
         
     }
 
+    public function notificarVooAlterado($id)
+    {
+        try{
+            $clientes = DB::table("bilhetes")
+            ->join("clientes","clientes.id","=","bilhetes.id_cliente")
+            ->join("bilhete_lugares","bilhete_lugares.id_bilhete","=","bilhetes.id")
+            ->join("voo_lugares","voo_lugares.id","=","bilhete_lugares.id_voo_lugar")
+            ->join("lugares","lugares.id","=","voo_lugares.id_lugar")
+            ->join("voo_tarifas","voo_tarifas.id","=","voo_lugares.id_voo_tarifa")
+            ->join("voos","voos.id","=","voo_tarifas.id_voo")
+            ->join("aeroportos AS DESTINO","DESTINO.id","=","voos.id_aeroporto_destino")
+            ->join("cidades as CIDADE_DESTINO","CIDADE_DESTINO.id","=","DESTINO.id_cidade")
+            ->where("voos.id","=",$id)
+            ->where("voo_lugares.estado","=","1")
+            ->select("bilhetes.id as id_bilhete","clientes.id as id_cliente",
+                    "clientes.nome as nome_cliente","clientes.sobrenome as sobrenome_cliente","clientes.email",
+                    "voos.id as id_voo","voos.data_partida","voos.hora","CIDADE_DESTINO.nome as cidade"
+                        )
+            ->get();
+
+            foreach($clientes as $cliente)
+            {
+                try{
+                    dispatch(function () use ($cliente){
+                        $message = Mail::to($cliente)->send(new NotificacaoMudanca($cliente));
+                        DB::table("sent_emails")->insert([
+                           "nome" => $cliente->nome_cliente,
+                           "email"=> $cliente->email,
+                           "id_voo" => $cliente->id_voo,
+                           "message"=> "" 
+                        ]);
+                    });
+                    
+                }catch(Exception $e)
+                {
+                    continue;
+                }
+            }
+            
+            return "Clientes Notificados";
+        }catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+
+    public function notificarVooAlteradoSMS($id)
+    {
+        $basic = new \Vonage\Client\Credentials\Basic("55b688b2","0QNqZ7NphtLpMJIN");
+        $client= new \Vonage\Client($basic);
+
+        try{
+            $clientes = DB::table("bilhetes")
+            ->join("clientes","clientes.id","=","bilhetes.id_cliente")
+            ->join("bilhete_lugares","bilhete_lugares.id_bilhete","=","bilhetes.id")
+            ->join("voo_lugares","voo_lugares.id","=","bilhete_lugares.id_voo_lugar")
+            ->join("lugares","lugares.id","=","voo_lugares.id_lugar")
+            ->join("voo_tarifas","voo_tarifas.id","=","voo_lugares.id_voo_tarifa")
+            ->join("voos","voos.id","=","voo_tarifas.id_voo")
+            ->join("aeroportos AS DESTINO","DESTINO.id","=","voos.id_aeroporto_destino")
+            ->join("cidades as CIDADE_DESTINO","CIDADE_DESTINO.id","=","DESTINO.id_cidade")
+            ->where("voos.id","=",$id)
+            ->where("voo_lugares.estado","=","1")
+            ->select("bilhetes.id as id_bilhete","clientes.id as id_cliente",
+                    "clientes.nome as nome_cliente","clientes.sobrenome as sobrenome_cliente",
+                    "clientes.email","clientes.telefone",
+                    "voos.id as id_voo","voos.data_partida","voos.hora","CIDADE_DESTINO.nome as cidade"
+                        )
+            ->get();
+
+            foreach($clientes as $cliente)
+            {
+                try{
+                    dispatch(function () use ($cliente,$client){
+                         $response = $client->sms()->send(
+                        new \Vonage\SMS\Message\SMS("244".$cliente->telefone,"PDC Airlines",
+                                            "O seu voo com destino a {$cliente->cidade} foi reagendado para {$cliente->data_partida} as {$cliente->hora}. Caso nao esteja de acordo, pode contactar a compania para cancelar a sua viagem e pedir o reembolso.</br>")
+                        );
+    
+                        $message = $response->current();
+
+                        if($message->getStatus() == 0)
+                        {
+                            DB::table("sent_emails")->insert([
+                                "nome" => $cliente->nome_cliente,
+                                "email"=> $cliente->telefone,
+                                "id_voo" => $cliente->id_voo,
+                                "message"=> "enviada" 
+                             ]);
+                        }else{
+                            DB::table("sent_emails")->insert([
+                                "nome" => $cliente->nome_cliente,
+                                "email"=> $cliente->telefone,
+                                "id_voo" => $cliente->id_voo,
+                                "message"=> "falhou" 
+                             ]);
+                        }
+                    });
+                    
+                }catch(Exception $e)
+                {
+                    continue;
+                }
+            }
+            
+            return "Clientes Notificados";
+        }catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+
     public function EnviarMensagem($id)
-    {   $basic = new \Vonage\Client\Credentials\Basic("9767c8b8","6KkvEPc4fQ5pBSHC");
+    {   $basic = new \Vonage\Client\Credentials\Basic("55b688b2","0QNqZ7NphtLpMJIN");
         $client= new \Vonage\Client($basic);
         try{
             $cliente = DB::table("clientes")
@@ -419,12 +586,12 @@ class VooController extends Controller
                                     )
                         ->first();
             $response = $client->sms()->send(
-                new \Vonage\SMS\Message\SMS("244".$cliente->telefone,"PDC Airlines",
+                new \Vonage\SMS\Message\SMS("+244".$cliente->telefone,"PDC Airlines",
                                             "Seja Bem vindo ao PDC Airlines, a sua compania de confianca")
             );
     
             $message = $response->current();
-    
+            dd($message);
             if($message->getStatus() == 0)
             {
                 return "Mensagem Enviada";

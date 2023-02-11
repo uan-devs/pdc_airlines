@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get("/admin/voos/create",[VooController::class, "create"])->name("voos.create");
     Route::post("/admin/voos/store/",[VooController::class, "store"])->name("voos.store");
     Route::get('/admin/voos/{id}',[VooController::class, "show"])->name('voos.show');
+    Route::get('/admin/voos/{id}/edit',[VooController::class, "edit"])->name('voos.edit');
+    Route::post('/admin/voos/update',[VooController::class, "update"])->name('voos.update');
     Route::post("/admin/voos/tarifas",[VooController::class, "addTarifa"])->name("voos.addTarifa");
     Route::get('/admin/voos/{id}/activate',[VooController::class, "activate"])->name('voos.activate');
     Route::get('/admin/voos/{id}/lugares',[VooController::class, "getLugares"])->name('voos.lugares');

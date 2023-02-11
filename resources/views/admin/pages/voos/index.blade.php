@@ -46,8 +46,11 @@
                               <span class="px-3 btn btn-sm" style="background-color: #dc3545;color:white">Não Definido</span>
                             @endif
                         </td>
-                        <td>
-                          <a href="{{route('voos.show',base64_encode($voo->id_voo))}}" class="px-3 btn  btn-info btn-sm">Ver</a>
+                        <td class="d-flex">
+                          <a href="{{route('voos.show',base64_encode($voo->id_voo))}}" class="px-3 mr-3  btn  btn-info btn-sm">Ver</a>
+                          <a href="{{route('voos.edit',base64_encode($voo->id_voo))}}" class="p-1 btn  btn-info btn-sm">
+                            <i class="fa fa-edit"></i>
+                          </a>
                         </td>
                         
                     </tr>

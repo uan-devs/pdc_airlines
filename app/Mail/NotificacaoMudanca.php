@@ -32,7 +32,7 @@ class NotificacaoMudanca extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Mudança de Horário',
+            subject: 'O seu voo sofreu alterações.',
         );
     }
 
