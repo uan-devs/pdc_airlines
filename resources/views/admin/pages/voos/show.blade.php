@@ -11,7 +11,7 @@
             </h2>
             <div>
                 @if($voo->estado != '0')
-                <a href="{{route('voos.lugares',$voo->id_voo)}}" class="btn btn-info">Lugares do Voo</a>
+                <a href="{{route('voos.lugares',Crypt::encryptString($voo->id_voo))}}" class="btn btn-info">Lugares do Voo</a>
                 @endif
                 @if($voo->estado == '0')
                 <a href="{{route('voos.activate',$voo->id_voo)}}" class="btn btn-success">Abrir Voo</a>

@@ -4,19 +4,32 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { AlertSuccess } from '../../utils/Alert'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import PI from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
-const BookingForm = (props) => {
+import { AlertSuccess } from '../../utils/Alert'
+import { useUser } from '../../contexts/UserContext'
+
+const ReactPhoneInput = PI.default ? PI.default : PI
+
+const MemberForm = (props) => {
     const [documentType, setDocumentType] = useState('')
+    const [genre, setGenre] = useState('')
+    const [date, setDate] = useState()
+    const { dispatch } = useUser()
     const options = [
         { label: 'Passaporte', value: 'passport' },
     ]
-    const { closeModal, state, setState } = props
-
-    console.log(closeModal)
+    const { closeModal } = props
 
     const handleReserve = () => {
         if (documentType === '') {
@@ -49,6 +62,22 @@ const BookingForm = (props) => {
                     variant='outlined'
                     fullWidth
                     name='lastName'
+                />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+                <ReactPhoneInput
+                    inputStyle={{
+                        width: '100%',
+                        height: '57px',
+                    }}
+                    inputProps={{
+                        name: 'phone',
+                        required: true,
+                        autoFocus: true,
+                      }}
+                    placeholder='(+244) XXX XXX XXX'
+                    specialLabel={''}
+                    country={'ao'}
                 />
             </Grid>
 
@@ -93,24 +122,65 @@ const BookingForm = (props) => {
                     name='email'
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={12} marginTop={5}>
+            <Grid item xs={12} sm={6} md={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        label='Data de nascimento'
+                        value={date}
+                        className='w-full'
+                        onChange={(newValue) => {
+                            setDate(newValue)
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6} md={12}>
+                <FormControl>
+                    <RadioGroup
+                        aria-labelledby='demo-radio-buttons-group-label'
+                        defaultValue='action'
+                        name='gender'
+                        row
+                        value={genre}
+                        onChange={(e) => setGenre(e.target.value)}
+                    >
+                        <FormControlLabel value='Action' control={<Radio />} label='Masculino' />
+                        <FormControlLabel value='Comedy' control={<Radio />} label='Feminino' />
+                    </RadioGroup>
+                </FormControl>
+            </Grid>
+            <Grid item marginTop={3}>
+                <Button
+                    variant='contained'
+                    type='Submit'
+                    style={{
+                        backgroundColor: 'black',
+                    }}
+                    onClick={() => dispatch({
+                        type: 'setState',
+                        payload: 1,
+                    })}
+                >
+                    Já sou membro
+                </Button>
+            </Grid>
+            <Grid item marginTop={3}>
                 <Button
                     variant='contained'
                     color='primary'
                     type='Submit'
                     onClick={handleReserve}
                 >
-                    Escolher lugar
+                    Submeter
                 </Button>
             </Grid>
         </Grid>
     )
 }
 
-BookingForm.propTypes = {
+MemberForm.propTypes = {
     closeModal: PropTypes.func.isRequired,
-    state: PropTypes.string,
-    setState: PropTypes.func,
 }
 
-export default BookingForm
+export default MemberForm

@@ -3,6 +3,7 @@
 use App\Http\Controllers\VooController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/book', [BookingController::class, "guardarDados"])->name("bookStore");
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-// 
+//
 Route::post("/admin/voos/alterartarifa",[VooController::class, "alterarTarifa"]);

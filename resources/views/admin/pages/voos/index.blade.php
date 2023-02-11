@@ -47,10 +47,12 @@
                             @endif
                         </td>
                         <td class="d-flex">
-                          <a href="{{route('voos.show',base64_encode($voo->id_voo))}}" class="px-3 mr-3  btn  btn-info btn-sm">Ver</a>
+                          
+                          <a href="{{route('voos.show',Crypt::encryptString($voo->id_voo))}}" class="px-3 btn  btn-info btn-sm">Ver</a>
                           <a href="{{route('voos.edit',base64_encode($voo->id_voo))}}" class="p-1 btn  btn-info btn-sm">
                             <i class="fa fa-edit"></i>
                           </a>
+
                         </td>
                         
                     </tr>

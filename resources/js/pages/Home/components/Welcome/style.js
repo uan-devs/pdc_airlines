@@ -3,13 +3,6 @@ import styled from 'styled-components'
 
 export const Wrap = styled.div`
     width: 100vw;
-    min-height: 100vh;
-    padding: 10px 30px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -17,20 +10,28 @@ export const Wrap = styled.div`
 `
 
 export const ItemText = styled.div`
-    padding: 15vh 0px 0px;
+    padding: 1vh 0px 0px;
 
     h1 {
         font-size: 64px;
         margin-bottom: 10px;
-        color: #292827;
+        color: white;
         text-align: center;
+
+        @media (max-width: 768px) {
+            font-size: 44px;
+        }
     }
 
     p {
         font-size: 18px;
         line-height: 30px;
-        color: #292827;
+        color: white;
         text-align: center;
+
+        @media (max-width: 768px) {
+            font-size: 14px;
+        }
     }
 `
 
@@ -56,7 +57,7 @@ export const Box = styled.div`
     gap: 10px;
 
     @media (min-width: 728px) {
-        grid-template-areas: 
+        grid-template-areas:
         ". ."
         ". ."
         "button button";
@@ -70,7 +71,7 @@ export const Box = styled.div`
             border-bottom-right-radius: 10px;
         }
     }
-    
+
     @media (min-width: 1280px) {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         grid-template-rows: repeat(1, minmax(0, 1fr));
@@ -83,13 +84,13 @@ export const Box = styled.div`
     }
 `
 
-export const BoxButton = styled.a`
+export const BoxButton = styled.button`
     background: #2564CF;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
     color: white;
-    cursor: pointer;
     padding: 10px;
     transition: all ease .5s;
 
@@ -97,7 +98,6 @@ export const BoxButton = styled.a`
         &:hover {
             background: #0544AF;
             border-radius: 10px;
-            scale: 1.05;
         }
     }
 
@@ -108,7 +108,6 @@ export const BoxButton = styled.a`
             background: #0544AF;
             border-top-right-radius: 10px;
             border-bottom-right-radius: 10px;
-            scale: 1.05;
         }
     }
 
