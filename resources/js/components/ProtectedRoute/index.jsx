@@ -6,6 +6,7 @@ import Sidebar from '@/components/Sidebar'
 const ProtectedRoute = () => {
     const { user } = useUser()
     const { id } = useParams()
+    console.log(id, user.nome.toLowerCase().replaceAll(' ', ''))
 
     return (id === user.nome.toLowerCase().replaceAll(' ', '')) ? (
         <div className='flex sm:flex-row flex-col w-full h-screen bg-white'>

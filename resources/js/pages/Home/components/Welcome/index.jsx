@@ -15,14 +15,16 @@ import * as C from './style'
 import arrow from '../../../../assets/images/down-arrow.svg'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../../../components/Header'
-import { loginMember } from '@/services/api'
+import { getCountries } from '@/services/api'
+import { formatDate } from '@/helpers/date'
 
 // https://www.youtube.com/watch?v=79rgF2VK_4E
 
 const Welcome = ({ title, description, background }) => {
     const [trip, setTrip] = useState('')
-    const [origin, setOrigin] = useState('')
-    const [destiny, setDestiny] = useState('')
+    const [origin, setOrigin] = useState()
+    const [destinyError, setDestinyError] = useState(false)
+    const [destiny, setDestiny] = useState()
     const [origins, setOrigins] = useState([])
     const [destinies, setDestinies] = useState([])
     const [date, setDate] = useState('')
@@ -32,59 +34,45 @@ const Welcome = ({ title, description, background }) => {
     useEffect(() => {
         Aos.init({ duration: 1500 })
     }, [])
+
     useEffect(() => {
-        const places = [
-            {
-                id: '1',
-                name: 'Luanda',
-                country: 'AO',
-            },
-            {
-                id: '2',
-                name: 'Dubai',
-                country: 'EAU',
-            },
-            {
-                id: '3',
-                name: 'New York',
-                country: 'USA',
-            },
-            {
-                id: '4',
-                name: 'Bali',
-                country: 'IN',
-            },
-            {
-                id: '5',
-                name: 'Lisboa',
-                country: 'PT',
-            },
-        ]
-        setOrigins(places)
-        setDestinies(places)
+        const handleSelect = () => {
+            if(origin === undefined || origin === null || destiny === undefined || destiny === null) return
+
+            if(origin.id === destiny.id) setDestinyError(true)
+            else setDestinyError(false)
+        }
+
+        handleSelect()
+    }, [origin, destiny])
+
+    useEffect(() => {
+        const fetchCountries = async () => {
+            const countries = await getCountries()
+
+            if(countries) {
+                setDestinies(countries)
+                setOrigins(countries)
+            }
+        }
+
+        fetchCountries()
     }, [])
 
     useEffect(() => {
-        if (trip !== undefined && trip !== '' && origin !== undefined && origin !== '' && destiny !== undefined && destiny !== '' && date !== undefined && date !== '') {
-            setDisableButton(false)
-        }
+        setDisableButton(destinyError || trip === undefined || trip === '' || origin === undefined || origin === null || destiny === undefined || destiny === null || date === undefined || date === '')
     }, [trip, origin, destiny, date])
 
-    const handleSearch = async () => {
-        /*if (disableButton) return
+    const handleSearch = () => {
+        if (disableButton) return
 
-        localStorage.setItem('pdcAirlineUAN2022', JSON.stringify({
+        localStorage.setItem('searchPdcAirlinesUAN2022', JSON.stringify({
             origin: origin,
             destiny: destiny,
             date: date,
             trip: trip,
         }))
-        navigate('/flightResults')*/
-        const data = {
-            email: 'vembaeliude@gmail.com',
-            pin: 1234,
-        }
-        await loginMember(data)
+        navigate('/flightResults')
     }
 
     return (
@@ -137,8 +125,8 @@ const Welcome = ({ title, description, background }) => {
                         >
                             {
                                 origins.map((o, index) => (
-                                    <MenuItem value={o.id} key={index}>
-                                        {o.name}
+                                    <MenuItem value={o} key={index}>
+                                        {o.nome}
                                     </MenuItem>
                                 ))
                             }
@@ -174,6 +162,7 @@ const Welcome = ({ title, description, background }) => {
                             value={destiny}
                             label='Destino'
                             onChange={(e) => setDestiny(e.target.value)}
+                            error={destinyError}
                             sx={{
                                 transitionDuration: '500ms',
                                 ':hover': {
@@ -182,9 +171,9 @@ const Welcome = ({ title, description, background }) => {
                             }}
                         >
                             {
-                                destinies.reverse().map((d, index) => (
-                                    <MenuItem value={d.id} key={index}>
-                                        {d.name}
+                                destinies.map((d, index) => (
+                                    <MenuItem value={d} key={index}>
+                                        {d.nome}
                                     </MenuItem>
                                 ))
                             }
@@ -194,14 +183,14 @@ const Welcome = ({ title, description, background }) => {
                         <DatePicker
                             label='Data'
                             value={date}
+                            inputFormat='YYYY/MM/DD'
+                            minDate={formatDate(new Date())}
                             onChange={(newValue) => {
-                                setDate(newValue)
+                                if(newValue === null) setDate('')
+                                else setDate(`${newValue.$y}-${newValue.$M > 9 ? '' : '0'}${newValue.$M + 1}-${newValue.$D > 9 ? '' : '0'}${newValue.$D}`)
                             }}
                             renderInput={(params) => <TextField {...params} sx={{
                                 minWidth: 250,
-                                '& label.Mui-focused': {
-                                    // color: 'white',
-                                },
                                 '& .MuiInput-underline:after': {
                                     borderBottomColor: 'yellow',
                                 },
@@ -212,9 +201,6 @@ const Welcome = ({ title, description, background }) => {
                                     },
                                     '&:hover fieldset': {
                                         borderColor: 'white',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        // borderColor: 'yellow',
                                     },
                                 },
                             }} />}
@@ -266,7 +252,8 @@ const Welcome = ({ title, description, background }) => {
                         </Select>
                     </FormControl>
                     <C.BoxButton
-                        onClick={() => handleSearch()}
+                        onClick={() => handleSearch()} disabled={disableButton}
+                        className={`${disableButton ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                     >
                         Search
                     </C.BoxButton>

@@ -46,12 +46,12 @@ export const UserProvider = (props) => {
 
     useEffect(() => {
         const validateUser = async () => {
-            if(localUser === null) return;
+            if (localUser === null) return
 
             else {
                 const data = {
                     'email': value.user.email,
-                    'pin': value.user.pin
+                    'pin': value.user.pin,
                 }
 
                 const response = await loginMember(data)
@@ -63,6 +63,16 @@ export const UserProvider = (props) => {
                         type: 'clearUser',
                         payload: null,
                     })
+                    localStorage.removeItem('userPDCAirlines2023')
+                } else {
+                    const memberAuth = JSON.parse(response.data.data)
+
+                    dispatch({
+                        type: 'setUser',
+                        payload: memberAuth,
+                    })
+
+                    localStorage.setItem('userPDCAirlines2023', JSON.stringify(memberAuth))
                 }
             }
         }

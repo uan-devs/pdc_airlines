@@ -25,7 +25,7 @@ use Inertia\Inertia;
 
 // PORTAL ROUTES
 
-Route::get('{reactRoutes}', function () {
+Route::get('/app{reactRoutes}', function () {
     return view('welcome'); // your start view
 })->where('reactRoutes', '^((?!api).)*$');
 
@@ -65,3 +65,5 @@ Route::middleware(['auth'])->group(function(){
     Route::get("admin/bilhetes",[BilheteController::class,"getIda"])->name("bilhetes");
     Route::get("admin/bilhetes/ida-volta",[BilheteController::class,"getIdaVolta"])->name("bilhetes.volta");
 });
+
+Auth::routes();

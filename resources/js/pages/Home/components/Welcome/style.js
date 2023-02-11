@@ -57,13 +57,13 @@ export const Box = styled.div`
     gap: 10px;
 
     @media (min-width: 728px) {
-        grid-template-areas: 
+        grid-template-areas:
         ". ."
         ". ."
         "button button";
         grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-template-rows: repeat(3, minmax(0, 1fr));
-        gap: 0px;
+        gap: 5px;
         padding: 10px;
 
         &:hover {
@@ -71,7 +71,7 @@ export const Box = styled.div`
             border-bottom-right-radius: 10px;
         }
     }
-    
+
     @media (min-width: 1280px) {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         grid-template-rows: repeat(1, minmax(0, 1fr));
@@ -94,21 +94,12 @@ export const BoxButton = styled.button`
     padding: 10px;
     transition: all ease .5s;
 
-    @media (max-width: 1280px) {
-        &:hover {
+    &:hover {
             background: #0544AF;
-            border-radius: 10px;
         }
-    }
 
     @media (min-width: 728px) {
         grid-area: button;
-
-        &:hover {
-            background: #0544AF;
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
     }
 
     @media (min-width: 1280px) {
